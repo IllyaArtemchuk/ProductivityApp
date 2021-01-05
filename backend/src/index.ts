@@ -1,7 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import cookieSession from "cookie-session";
+import passport from "passport";
+import { graphqlHTTP } from "express-graphql";
 import { keys } from "./config/keys";
+import { schema } from "./schema/schema";
+require("./models/User");
+require("./services/passport");
+require("./services/lyrics");
 
 mongoose
   .connect(keys.mongoURI, { useNewUrlParser: true })
@@ -21,6 +27,14 @@ app.use(
     keys: [keys.cookieKey],
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use("/graphql", graphqlHTTP({ schema, graphiql: true }));
+
+require("./routes/authRoutes")(app);
+require("./routes/testRoutes")(app);
 
 app.get("/", (req, res) => {
   res.json({ message: "Whats up dude" });
