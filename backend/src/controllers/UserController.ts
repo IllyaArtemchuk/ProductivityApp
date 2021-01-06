@@ -52,3 +52,18 @@ export const newActivitiy = async (
 
   return user;
 };
+
+export const deleteActivity = async (
+  userID: string,
+  categoryName: string,
+  activityTitle: string
+): Promise<Document | null> => {
+  const user = await User.findOneAndUpdate(
+    { _id: userID, "categories.category_name": categoryName },
+    {
+      $pull: { "categories.$.activities": { title: activityTitle } },
+    },
+    { new: true }
+  );
+  return user;
+};
