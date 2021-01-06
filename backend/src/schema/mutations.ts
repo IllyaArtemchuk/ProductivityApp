@@ -1,6 +1,10 @@
 import { GraphQLObjectType, GraphQLString } from "graphql";
 import { UserType } from "./types/user_type";
-import { newCategory, newActivitiy } from "../controllers/UserController";
+import {
+  newCategory,
+  newActivitiy,
+  deleteCategory,
+} from "../controllers/UserController";
 
 export const mutation = new GraphQLObjectType({
   name: "Mutation",
@@ -13,6 +17,16 @@ export const mutation = new GraphQLObjectType({
       },
       resolve(parentValue, { userID, categoryName }, req) {
         return newCategory(userID, categoryName);
+      },
+    },
+    deleteCategory: {
+      type: UserType,
+      args: {
+        userID: { type: GraphQLString },
+        categoryName: { type: GraphQLString },
+      },
+      resolve(parentValue, { userID, categoryName }, req) {
+        return deleteCategory(userID, categoryName);
       },
     },
     createActivity: {

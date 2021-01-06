@@ -11,11 +11,16 @@ require("./services/passport");
 require("./services/lyrics");
 
 mongoose
-  .connect(keys.mongoURI, { useNewUrlParser: true })
+  .connect(keys.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
   .then(() => {
     console.log("DataBase Connection Successful");
   })
   .catch((err) => {
+    console.log(err);
     console.log("Database Error");
   });
 

@@ -22,21 +22,26 @@ export const newCategory = async (
   return user;
 };
 
+export const deleteCategory = async (
+  userID: string,
+  categoryName: string
+): Promise<Document | null> => {
+  const user = await User.findOneAndUpdate(
+    {
+      _id: userID,
+      "categories.category_name": categoryName,
+    },
+    { $pull: { categories: { category_name: categoryName } } },
+    { new: true }
+  );
+  return user;
+};
+
 export const newActivitiy = async (
   userID: string,
   categoryName: string,
   activityTitle: string
 ): Promise<Document | null> => {
-  const isDuplicate = await User.findOne(
-    {
-      _id: userID,
-      "categories.$[category].activities.title": activityTitle,
-    },
-    { arrayFilters: [{ "category.category_name": categoryName }] }
-  );
-  if (isDuplicate) {
-    throw Error("Activity Already Exists");
-  }
   const user = await User.findOneAndUpdate(
     { _id: userID },
     {
