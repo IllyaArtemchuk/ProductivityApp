@@ -3,7 +3,7 @@ import GoogleStrategy from "passport-google-oauth20";
 import mongoose from "mongoose";
 import { keys } from "../config/keys";
 
-const User = mongoose.model("users");
+const User = mongoose.model("user");
 
 passport.serializeUser((user: any, done) => {
   done(null, user.id);

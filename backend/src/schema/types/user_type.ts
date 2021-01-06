@@ -10,7 +10,7 @@ const ActivitiesType = new GraphQLObjectType({
 const CategoriesType = new GraphQLObjectType({
   name: "CategoriesType",
   fields: {
-    name: { type: GraphQLString },
+    category_name: { type: GraphQLString },
     activities: { type: new GraphQLList(ActivitiesType) },
   },
 });

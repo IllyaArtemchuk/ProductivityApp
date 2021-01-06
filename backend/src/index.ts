@@ -2,10 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import cookieSession from "cookie-session";
 import passport from "passport";
+require("./models/User");
 import { graphqlHTTP } from "express-graphql";
 import { keys } from "./config/keys";
 import { schema } from "./schema/schema";
-require("./models/User");
+
 require("./services/passport");
 require("./services/lyrics");
 

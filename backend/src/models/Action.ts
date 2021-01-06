@@ -7,4 +7,4 @@ const actionSchema = new Schema({
   timeEnded: Date,
 });
 
-mongoose.model("actions", actionSchema);
+mongoose.model("action", actionSchema);
