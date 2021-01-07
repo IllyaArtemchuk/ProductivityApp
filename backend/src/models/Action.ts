@@ -1,10 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
 const actionSchema = new Schema({
-  _user: { type: Schema.Types.ObjectId, ref: "User" },
-  title: String,
-  timeStarted: Date,
-  timeEnded: Date,
+  timeStarted: String,
+  timeEnded: String,
 });
 
 mongoose.model("action", actionSchema);

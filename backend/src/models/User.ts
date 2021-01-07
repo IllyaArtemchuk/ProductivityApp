@@ -9,6 +9,11 @@ const userSchema = new Schema({
       activities: [
         {
           title: String,
+          actions: [
+            {
+              action: { type: Schema.Types.ObjectId, ref: "Action" },
+            },
+          ],
         },
       ],
     },

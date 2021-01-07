@@ -1,9 +1,22 @@
-import { GraphQLList, GraphQLObjectType, GraphQLString } from "graphql";
+import {
+  GraphQLID,
+  GraphQLList,
+  GraphQLObjectType,
+  GraphQLString,
+} from "graphql";
+import { findActions } from "../../controllers/ActionController";
+import { ActionType } from "./action_type";
 
 const ActivitiesType = new GraphQLObjectType({
   name: "ActivitiesType",
   fields: {
     title: { type: GraphQLString },
+    actions: {
+      type: new GraphQLList(ActionType),
+      resolve(parentValue, args) {
+        return findActions(parentValue.actions);
+      },
+    },
   },
 });
 
@@ -18,7 +31,7 @@ const CategoriesType = new GraphQLObjectType({
 export const UserType = new GraphQLObjectType({
   name: "UserType",
   fields: () => ({
-    id: { type: GraphQLString },
+    id: { type: GraphQLID },
     username: { type: GraphQLString },
     categories: { type: new GraphQLList(CategoriesType) },
   }),

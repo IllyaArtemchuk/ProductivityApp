@@ -1,6 +1,13 @@
 import mongoose, { Document } from "mongoose";
 const User = mongoose.model("user");
 
+export const getUser = async (userID: string): Promise<Document | null> => {
+  const user = await User.findOne({
+    _id: userID,
+  });
+  return user;
+};
+
 export const newCategory = async (
   userID: string,
   categoryName: string
@@ -45,7 +52,12 @@ export const newActivitiy = async (
   const user = await User.findOneAndUpdate(
     { _id: userID },
     {
-      $push: { "categories.$[category].activities": { title: activityTitle } },
+      $push: {
+        "categories.$[category].activities": {
+          title: activityTitle,
+          actions: [],
+        },
+      },
     },
     { arrayFilters: [{ "category.category_name": categoryName }], new: true }
   );

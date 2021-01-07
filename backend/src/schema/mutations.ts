@@ -6,6 +6,8 @@ import {
   deleteCategory,
   deleteActivity,
 } from "../controllers/UserController";
+import { ActionType } from "./types/action_type";
+import { newAction } from "../controllers/ActionController";
 
 export const mutation = new GraphQLObjectType({
   name: "Mutation",
@@ -50,6 +52,29 @@ export const mutation = new GraphQLObjectType({
       },
       resolve(parentValue, { userID, categoryName, activityTitle }, req) {
         return deleteActivity(userID, categoryName, activityTitle);
+      },
+    },
+    createAction: {
+      type: ActionType,
+      args: {
+        userID: { type: GraphQLString },
+        categoryName: { type: GraphQLString },
+        activityTitle: { type: GraphQLString },
+        timeStarted: { type: GraphQLString },
+        timeEnded: { type: GraphQLString },
+      },
+      resolve(
+        parentValue,
+        { userID, categoryName, activityTitle, timeStarted, timeEnded },
+        req
+      ) {
+        return newAction(
+          userID,
+          categoryName,
+          activityTitle,
+          timeStarted,
+          timeEnded
+        );
       },
     },
   },

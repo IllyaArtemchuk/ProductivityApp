@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cookieSession from "cookie-session";
 import passport from "passport";
 require("./models/User");
+require("./models/Action");
 import { graphqlHTTP } from "express-graphql";
 import { keys } from "./config/keys";
 import { schema } from "./schema/schema";
