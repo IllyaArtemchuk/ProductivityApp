@@ -7,7 +7,7 @@ import {
   deleteActivity,
 } from "../controllers/UserController";
 import { ActionType } from "./types/action_type";
-import { newAction } from "../controllers/ActionController";
+import { newAction, updateAction } from "../controllers/ActionController";
 
 export const mutation = new GraphQLObjectType({
   name: "Mutation",
@@ -75,6 +75,17 @@ export const mutation = new GraphQLObjectType({
           timeStarted,
           timeEnded
         );
+      },
+    },
+    updateAction: {
+      type: ActionType,
+      args: {
+        actionID: { type: GraphQLString },
+        timeStarted: { type: GraphQLString },
+        timeEnded: { type: GraphQLString },
+      },
+      resolve(parentValue, { actionID, timeStarted, timeEnded }, req) {
+        return updateAction(actionID, timeStarted, timeEnded);
       },
     },
   },

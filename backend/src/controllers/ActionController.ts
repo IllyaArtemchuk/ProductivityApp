@@ -60,3 +60,26 @@ export const newAction = async (
   }
   return createdAction;
 };
+
+interface ActionChanges {
+  timeStarted?: string;
+  timeEnded?: string;
+}
+
+export const updateAction = async (
+  actionID: string,
+  timeStarted: string | null = null,
+  timeEnded: string | null = null
+): Promise<Document | null> => {
+  const action: any = await Action.findOne({ _id: actionID });
+
+  if (timeStarted) {
+    action.timeStarted = timeStarted;
+  }
+  if (timeEnded) {
+    action.timeEnded = timeEnded;
+  }
+
+  await action.save();
+  return action;
+};
