@@ -26,9 +26,10 @@ export const newAction = async (
   timeStarted: string,
   timeEnded: string
 ): Promise<Document | null> => {
+  const newDate = new Date();
   const createdAction = await new Action({
-    timeStarted,
-    timeEnded,
+    timeStarted: newDate,
+    timeEnded: newDate,
   }).save();
   if (!createdAction) {
     throw "Invalid Action";
@@ -61,25 +62,29 @@ export const newAction = async (
   return createdAction;
 };
 
-interface ActionChanges {
-  timeStarted?: string;
-  timeEnded?: string;
-}
-
-export const updateAction = async (
+export const deleteAction = async (
   actionID: string,
-  timeStarted: string | null = null,
-  timeEnded: string | null = null
+  userID: string,
+  categoryName: string,
+  activityTitle: string
 ): Promise<Document | null> => {
-  const action: any = await Action.findOne({ _id: actionID });
-
-  if (timeStarted) {
-    action.timeStarted = timeStarted;
-  }
-  if (timeEnded) {
-    action.timeEnded = timeEnded;
-  }
-
-  await action.save();
-  return action;
+  const deletedAction = await Action.findByIdAndDelete(actionID);
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: userID },
+    {
+      $pull: {
+        "categories.$[category].activities.$[activity].actions": {
+          id: actionID,
+        },
+      },
+    },
+    {
+      arrayFilters: [
+        { "category.category_name": categoryName },
+        { "activity.title": activityTitle },
+      ],
+      new: true,
+    }
+  );
+  return updatedUser;
 };
