@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cookieSession from "cookie-session";
 import passport from "passport";
+import cors from "cors";
 require("./models/User");
 require("./models/Action");
 import { graphqlHTTP } from "express-graphql";
@@ -26,6 +27,11 @@ mongoose
   });
 
 const app = express();
+var corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(
   cookieSession({
