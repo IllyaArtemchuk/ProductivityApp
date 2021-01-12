@@ -17,6 +17,7 @@ module.exports = (app: Express) => {
   );
 
   app.get("/api/logout", (req, res) => {
+    console.log("hoho you found me!");
     req.logout();
     res.redirect("/");
   });
