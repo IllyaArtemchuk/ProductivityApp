@@ -49,9 +49,6 @@ app.use("/graphql", graphqlHTTP({ schema, graphiql: true }));
 require("./routes/authRoutes")(app);
 require("./routes/testRoutes")(app);
 
-app.get("/", (req, res) => {
-  res.json({ message: "Whats up dude" });
-});
-
 const PORT = process.env.PORT || 5000;
+console.log(PORT);
 app.listen(PORT);

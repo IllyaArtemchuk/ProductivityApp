@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import { generateBackendURL } from "../../helpers";
 import { colors } from "../../styles/styles";
 interface Props {
   username: string;
@@ -22,6 +23,7 @@ const styles = makeStyles({
 
 const LoggedIn: FC<Props> = ({ username }) => {
   const classes = styles();
+  console.log(generateBackendURL("api/logout"));
   return (
     <>
       <Typography variant="h5" className={classes.username}>
@@ -31,7 +33,7 @@ const LoggedIn: FC<Props> = ({ username }) => {
         variant="contained"
         className={classes.button}
         size="large"
-        href="/api/logout"
+        href={generateBackendURL("/api/logout")}
       >
         Sign Out
       </Button>

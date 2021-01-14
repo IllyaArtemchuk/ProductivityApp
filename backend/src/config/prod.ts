@@ -1,6 +1,6 @@
-import { configObject } from "./keys";
+import { ConfigObject } from "./keys";
 
-let config: configObject = {
+let config: ConfigObject = {
   googleClientID: process.env.GOOGLE_CLIENT_ID || "",
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
   mongoURI: process.env.MONGO_URI || "",

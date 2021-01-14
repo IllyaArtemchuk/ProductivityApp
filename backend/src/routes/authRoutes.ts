@@ -1,5 +1,6 @@
 import passport from "passport";
 import { Express } from "express";
+import { generateFrontendURL } from "../helpers";
 
 module.exports = (app: Express) => {
   app.get("/auth/google", function (req, res, next) {
@@ -12,14 +13,13 @@ module.exports = (app: Express) => {
     "/auth/google/callback",
     passport.authenticate("google"),
     (req, res) => {
-      res.json("Hello!");
+      res.redirect(generateFrontendURL("/"));
     }
   );
 
   app.get("/api/logout", (req, res) => {
-    console.log("hoho you found me!");
     req.logout();
-    res.redirect("/");
+    res.redirect(generateFrontendURL("/"));
   });
 
   app.get("/api/current_user", (req, res) => {
