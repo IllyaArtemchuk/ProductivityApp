@@ -3,8 +3,7 @@ import { AppBar, Typography, Container, Toolbar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LoggedIn from "./LoggedIn";
 import GoogleButton from "react-google-button";
-import { colors } from "../../styles/styles";
-import { useHistory } from "react-router-dom";
+import { ThemeColors } from "../../styles/styles";
 import { generateBackendURL } from "../../helpers";
 
 const styles = makeStyles({
@@ -15,8 +14,8 @@ const styles = makeStyles({
     marginRight: 10,
   },
   appBar: {
-    backgroundColor: colors.Dark,
-    color: colors.Sand,
+    backgroundColor: ThemeColors.Dark,
+    color: ThemeColors.Sand,
   },
 });
 
@@ -25,9 +24,10 @@ interface Props {
     id: "string";
     username: "string";
   } | null;
+  currentUserLoading: boolean;
 }
 
-const Header: FC<Props> = ({ currentUser }) => {
+const Header: FC<Props> = ({ currentUser, currentUserLoading }) => {
   const classes = styles();
   const authenticate = () => {
     window.location.href = generateBackendURL("/auth/google");

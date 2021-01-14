@@ -7,12 +7,15 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Landing from "./components/Landing/Landing";
 
 const App: FC = () => {
-  const { data } = useQuery(CURRENT_USER);
+  const { data, loading } = useQuery(CURRENT_USER);
   console.log(data);
   return (
     <Container>
       <BrowserRouter>
-        <Header currentUser={data ? data.currentUser : null} />
+        <Header
+          currentUser={data ? data.currentUser : null}
+          currentUserLoading={loading}
+        />
         <Toolbar />
         <Route exact path="/" component={Landing} />
       </BrowserRouter>

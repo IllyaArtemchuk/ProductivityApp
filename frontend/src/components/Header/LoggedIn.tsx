@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { generateBackendURL } from "../../helpers";
-import { colors } from "../../styles/styles";
+import { ThemeColors } from "../../styles/styles";
 interface Props {
   username: string;
 }
@@ -12,11 +12,11 @@ const styles = makeStyles({
     marginRight: 15,
   },
   button: {
-    backgroundColor: colors.FadedGreen,
-    color: colors.Dark,
+    backgroundColor: ThemeColors.FadedGreen,
+    color: ThemeColors.Dark,
     "&:hover, &:focus": {
-      backgroundColor: colors.Green,
-      color: colors.Sand,
+      backgroundColor: ThemeColors.Green,
+      color: ThemeColors.Sand,
     },
   },
 });

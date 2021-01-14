@@ -3,11 +3,25 @@ import { gql, useQuery } from "@apollo/client";
 
 const CURRENT_USER = gql`
   query {
-    currentUser {
+    {
+    currentUser{
       id
       username
+      categories{
+        category_name
+        activities{
+          title
+          actions{
+            id
+            timeEnded
+            timeStarted
+            minutes
+           }
+        }
+      }
     }
   }
+}
 `;
 
 function FirstQuery() {
