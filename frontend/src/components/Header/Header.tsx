@@ -1,23 +1,9 @@
 import { FC } from "react";
 import { AppBar, Typography, Container, Toolbar } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import LoggedIn from "./LoggedIn";
 import GoogleButton from "react-google-button";
-import { ThemeColors } from "../../styles/styles";
+import { HeaderStyles } from "./Styles";
 import { generateBackendURL } from "../../helpers";
-
-const styles = makeStyles({
-  title: {
-    flexGrow: 1,
-  },
-  login: {
-    marginRight: 10,
-  },
-  appBar: {
-    backgroundColor: ThemeColors.Dark,
-    color: ThemeColors.Sand,
-  },
-});
 
 interface Props {
   currentUser: {
@@ -28,7 +14,7 @@ interface Props {
 }
 
 const Header: FC<Props> = ({ currentUser, currentUserLoading }) => {
-  const classes = styles();
+  const classes = HeaderStyles();
   const authenticate = () => {
     window.location.href = generateBackendURL("/auth/google");
     return;

@@ -1,28 +1,13 @@
 import { FC } from "react";
 import { Typography, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
 import { generateBackendURL } from "../../helpers";
-import { ThemeColors } from "../../styles/styles";
+import { LoggedInStyles } from "./Styles";
 interface Props {
   username: string;
 }
 
-const styles = makeStyles({
-  username: {
-    marginRight: 15,
-  },
-  button: {
-    backgroundColor: ThemeColors.FadedGreen,
-    color: ThemeColors.Dark,
-    "&:hover, &:focus": {
-      backgroundColor: ThemeColors.Green,
-      color: ThemeColors.Sand,
-    },
-  },
-});
-
 const LoggedIn: FC<Props> = ({ username }) => {
-  const classes = styles();
+  const classes = LoggedInStyles();
   console.log(generateBackendURL("api/logout"));
   return (
     <>

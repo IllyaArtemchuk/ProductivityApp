@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/client";
 import { CURRENT_USER } from "./graphql/getCurrentUser";
 import { BrowserRouter, Route } from "react-router-dom";
 import Landing from "./components/Landing/Landing";
+import Tracker from "./components/Tracker/Tracker";
 
 const App: FC = () => {
   const { data, loading } = useQuery(CURRENT_USER);
@@ -18,6 +19,7 @@ const App: FC = () => {
         />
         <Toolbar />
         <Route exact path="/" component={Landing} />
+        <Route exact path="/tracker" component={Tracker} />
       </BrowserRouter>
     </Container>
   );
