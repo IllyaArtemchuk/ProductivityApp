@@ -1,4 +1,5 @@
 import mongoose, { Document } from "mongoose";
+import { IUser } from "../models/User";
 const User = mongoose.model("user");
 
 export const getUser = async (userID: string): Promise<Document | null> => {
@@ -10,7 +11,8 @@ export const getUser = async (userID: string): Promise<Document | null> => {
 
 export const newCategory = async (
   userID: string,
-  categoryName: string
+  categoryName: string,
+  color: string
 ): Promise<Document | null> => {
   const isDuplicate = await User.findOne({
     _id: userID,
@@ -22,7 +24,13 @@ export const newCategory = async (
   const user = await User.findOneAndUpdate(
     { _id: userID },
     {
-      $push: { categories: { category_name: categoryName, activities: [] } },
+      $push: {
+        categories: {
+          category_name: categoryName,
+          color: color,
+          activities: [],
+        },
+      },
     },
     { new: true }
   );
@@ -47,7 +55,8 @@ export const deleteCategory = async (
 export const newActivitiy = async (
   userID: string,
   categoryName: string,
-  activityTitle: string
+  activityTitle: string,
+  color: string
 ): Promise<Document | null> => {
   const user = await User.findOneAndUpdate(
     { _id: userID },
@@ -55,6 +64,7 @@ export const newActivitiy = async (
       $push: {
         "categories.$[category].activities": {
           title: activityTitle,
+          color: color,
           actions: [],
         },
       },
@@ -77,5 +87,29 @@ export const deleteActivity = async (
     },
     { new: true }
   );
+  return user;
+};
+
+interface CurrentAction {
+  category: String;
+  activity: String;
+  timeStarted: String;
+  minutes: Number;
+}
+
+export const updateCurrentAction = async (
+  userID: string,
+  newCurrentAction: CurrentAction
+): Promise<Document | null> => {
+  const user = await User.findOneAndUpdate(
+    { _id: userID },
+    {
+      currentAction: newCurrentAction,
+    },
+    { new: true }
+  );
+  if (!user) {
+    throw Error("Invalid User ID");
+  }
   return user;
 };

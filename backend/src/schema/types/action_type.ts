@@ -1,6 +1,6 @@
 import {
   GraphQLID,
-  GraphQLList,
+  GraphQLInt,
   GraphQLObjectType,
   GraphQLString,
 } from "graphql";
@@ -11,5 +11,6 @@ export const ActionType = new GraphQLObjectType({
     id: { type: GraphQLID },
     timeStarted: { type: GraphQLString },
     timeEnded: { type: GraphQLString },
+    minutes: { type: GraphQLInt },
   }),
 });

@@ -24,12 +24,14 @@ export const newAction = async (
   categoryName: string,
   activityTitle: string,
   timeStarted: string,
-  timeEnded: string
+  timeEnded: string,
+  minutes: string
 ): Promise<Document | null> => {
   const newDate = new Date();
   const createdAction = await new Action({
     timeStarted: newDate,
     timeEnded: newDate,
+    minutes: minutes,
   }).save();
   if (!createdAction) {
     throw "Invalid Action";
@@ -74,7 +76,7 @@ export const deleteAction = async (
     {
       $pull: {
         "categories.$[category].activities.$[activity].actions": {
-          id: actionID,
+          action: actionID,
         },
       },
     },

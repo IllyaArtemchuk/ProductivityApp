@@ -6,7 +6,7 @@ import { CurrentDisplayStyles } from "./Styles";
 const CurrentDisplay: FC = () => {
   const classes = CurrentDisplayStyles();
   return (
-    <Box className={classes.box}>
+    <Box className={classes.box} boxShadow={3}>
       <Grid container>
         <Grid item xs={12} className={classes.timerContainer}>
           <Typography variant="h1" className={classes.timer}>
@@ -16,7 +16,7 @@ const CurrentDisplay: FC = () => {
         <Grid item xs={4} />
         <Grid item xs={4}>
           <IconButton className={classes.timerControl}>
-            <PlayArrowIcon />
+            <PlayArrowIcon className={classes.controlButton} />
           </IconButton>
         </Grid>
       </Grid>
