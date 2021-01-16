@@ -8,10 +8,14 @@ const CurrentDisplay: FC = () => {
   return (
     <Box className={classes.box} boxShadow={3}>
       <Grid container>
-        <Grid item xs={12} className={classes.timerContainer}>
+        <Grid item xs={2} />
+        <Grid item xs={8} className={classes.timerContainer}>
           <Typography variant="h1" className={classes.timer}>
             00:00
           </Typography>
+        </Grid>
+        <Grid item xs={2}>
+          <Typography variant="h6">Japanese/Glossika</Typography>
         </Grid>
         <Grid item xs={4} />
         <Grid item xs={4}>

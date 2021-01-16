@@ -27,7 +27,7 @@ export enum PrimaryColors {
   Darkest = "hsla(210, 60%, 14%, 1)",
 }
 
-export enum Accents {
+export enum AccentColors {
   Green = "hsla(150, 60%, 33%, 1)",
   DarkGreen = "hsla(150, 71%, 20%, 1)",
   DarkestGreen = "hsla(150, 78%, 13%, 1)",

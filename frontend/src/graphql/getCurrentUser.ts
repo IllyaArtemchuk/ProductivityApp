@@ -5,10 +5,18 @@ export const CURRENT_USER = gql`
     currentUser {
       id
       username
+      currentAction {
+        timeStarted
+        category
+        activity
+        minutes
+      }
       categories {
         category_name
+        color
         activities {
           title
+          color
           actions {
             id
             timeEnded

@@ -1,5 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { ThemeColors } from "../../styles/styles";
+import {
+  PrimaryColors,
+  NeutralColors,
+  AccentColors,
+} from "../../styles/styles";
 
 export const HeaderStyles = makeStyles({
   title: {
@@ -9,8 +13,8 @@ export const HeaderStyles = makeStyles({
     marginRight: 10,
   },
   appBar: {
-    backgroundColor: ThemeColors.Dark,
-    color: ThemeColors.Sand,
+    backgroundColor: PrimaryColors.Base,
+    color: NeutralColors.White,
   },
 });
 
@@ -19,11 +23,11 @@ export const LoggedInStyles = makeStyles({
     marginRight: 15,
   },
   button: {
-    backgroundColor: ThemeColors.FadedGreen,
-    color: ThemeColors.Dark,
+    backgroundColor: AccentColors.Green,
+    color: AccentColors.LightestGreen,
     "&:hover, &:focus": {
-      backgroundColor: ThemeColors.Green,
-      color: ThemeColors.Sand,
+      backgroundColor: AccentColors.Green,
+      color: NeutralColors.White,
     },
   },
 });
