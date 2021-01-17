@@ -49,6 +49,10 @@ export const CurrentDisplayStyles = makeStyles({
   },
 });
 
+interface OptionProps {
+  color: string;
+}
+
 export const ActivitySelectorStyles = makeStyles({
   container: {
     position: "relative",
@@ -71,5 +75,39 @@ export const ActivitySelectorStyles = makeStyles({
   },
   emphasized: {
     fontWeight: FontWeight.heavy,
+  },
+});
+
+interface DropdownProps {
+  color: string;
+}
+
+export const DropDownStyles = makeStyles({
+  formControl: {
+    marginTop: -2,
+  },
+  option: {
+    fontSize: FontSize.size24,
+  },
+  select: {
+    fontSize: FontSize.size24,
+    fontWeight: FontWeight.heavy,
+  },
+  typography: {
+    marginRight: 5,
+    fontSize: FontSize.size24,
+    color: PrimaryColors.Dark,
+  },
+  emphasized: {
+    fontWeight: FontWeight.heavy,
+  },
+});
+
+interface OptionProps {
+  color: string;
+}
+export const DropdownOptionStyles = makeStyles({
+  option: {
+    color: (props: OptionProps) => props.color,
   },
 });

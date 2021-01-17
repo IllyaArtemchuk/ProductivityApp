@@ -1,12 +1,8 @@
 import { FC, SetStateAction, Dispatch } from "react";
-import {
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  Box,
-} from "@material-ui/core";
+import { Typography, FormControl, Select, Box } from "@material-ui/core";
 import { ActivitySelectorStyles } from "./Styles";
+import { ICurrentlySelected } from "./Interfaces";
+import DropdownOption from "./DropdownOption";
 
 interface Category {
   category_name: string;
@@ -14,18 +10,14 @@ interface Category {
 }
 
 interface IProps {
-  category: string;
-  activity: string;
-  setCategory: Dispatch<SetStateAction<string>>;
-  setActivity: Dispatch<SetStateAction<string>>;
+  currentlySelected: ICurrentlySelected;
+  setCurrentlySelected: Dispatch<SetStateAction<ICurrentlySelected>>;
   categories: Array<Category>;
 }
 
 const ActivitySelector: FC<IProps> = ({
-  category,
-  activity,
-  setCategory,
-  setActivity,
+  currentlySelected,
+  setCurrentlySelected,
   categories,
 }) => {
   const classes = ActivitySelectorStyles();
@@ -33,12 +25,24 @@ const ActivitySelector: FC<IProps> = ({
   const generateCategoryOptions = () => {
     return categories.map((cat, ind) => {
       return (
-        <option key={ind} value={cat.category_name} className={classes.option}>
-          {cat.category_name}
-        </option>
+        <DropdownOption
+          key={ind}
+          dropdownName={cat.category_name}
+          color={cat.color}
+          setCurrentlySelected={setCurrentlySelected}
+          type="category"
+        />
       );
     });
   };
+
+  const handleCategoryChange = (value: string) => {
+    setCurrentlySelected((prevCurrentlySelected) => ({
+      ...prevCurrentlySelected,
+      category: value,
+    }));
+  };
+  console.log(currentlySelected);
   return (
     <Box
       className={classes.container}
@@ -53,6 +57,10 @@ const ActivitySelector: FC<IProps> = ({
         <Select
           className={classes.select}
           native
+          value={currentlySelected.category}
+          onChange={(event) =>
+            handleCategoryChange(event.target.value as string)
+          }
           inputProps={{
             name: "category",
             id: "category",
