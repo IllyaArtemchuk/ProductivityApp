@@ -1,18 +1,13 @@
 import { FC, SetStateAction, Dispatch } from "react";
-import { Typography, FormControl, Select, Box } from "@material-ui/core";
+import { Typography, Box } from "@material-ui/core";
 import { ActivitySelectorStyles } from "./Styles";
-import { ICurrentlySelected } from "./Interfaces";
-import DropdownOption from "./DropdownOption";
-
-interface Category {
-  category_name: string;
-  color: string;
-}
+import { ICurrentlySelected, CategoryRef } from "./Interfaces";
+import Dropdown from "./Dropdown";
 
 interface IProps {
   currentlySelected: ICurrentlySelected;
   setCurrentlySelected: Dispatch<SetStateAction<ICurrentlySelected>>;
-  categories: Array<Category>;
+  categories: Array<CategoryRef>;
 }
 
 const ActivitySelector: FC<IProps> = ({
@@ -22,26 +17,6 @@ const ActivitySelector: FC<IProps> = ({
 }) => {
   const classes = ActivitySelectorStyles();
 
-  const generateCategoryOptions = () => {
-    return categories.map((cat, ind) => {
-      return (
-        <DropdownOption
-          key={ind}
-          dropdownName={cat.category_name}
-          color={cat.color}
-          setCurrentlySelected={setCurrentlySelected}
-          type="category"
-        />
-      );
-    });
-  };
-
-  const handleCategoryChange = (value: string) => {
-    setCurrentlySelected((prevCurrentlySelected) => ({
-      ...prevCurrentlySelected,
-      category: value,
-    }));
-  };
   console.log(currentlySelected);
   return (
     <Box
@@ -53,39 +28,22 @@ const ActivitySelector: FC<IProps> = ({
       <Typography className={classes.typography}>
         I'm <span className={classes.emphasized}>Focusing</span> on
       </Typography>
-      <FormControl className={classes.formControl}>
-        <Select
-          className={classes.select}
-          native
-          value={currentlySelected.category}
-          onChange={(event) =>
-            handleCategoryChange(event.target.value as string)
-          }
-          inputProps={{
-            name: "category",
-            id: "category",
-          }}
-        >
-          {generateCategoryOptions()}
-          <option>New Category + </option>
-        </Select>
-      </FormControl>
+      <Dropdown
+        selectedColor={currentlySelected.categoryColor}
+        currentlySelected={currentlySelected}
+        setCurrentlySelected={setCurrentlySelected}
+        categories={categories}
+        type="category"
+      />
       <Typography className={classes.typography}>
         By <span className={classes.emphasized}>Doing</span>
       </Typography>
-      <FormControl className={classes.formControl}>
-        <Select
-          className={classes.select}
-          native
-          inputProps={{
-            name: "category",
-            id: "category",
-          }}
-        >
-          {generateCategoryOptions()}
-          <option>New Category + </option>
-        </Select>
-      </FormControl>
+      <Dropdown
+        selectedColor={currentlySelected.activityColor}
+        currentlySelected={currentlySelected}
+        setCurrentlySelected={setCurrentlySelected}
+        type="activity"
+      />
     </Box>
   );
 };

@@ -6,11 +6,12 @@ import { CURRENT_USER } from "../../graphql/getCurrentUser";
 import { MainLayoutStyles } from "./Styles";
 import ActivitySelector from "./ActivitySelector";
 import { Category, Activity } from "../../interfaces/UserTypes";
-import { ICurrentlySelected } from "./Interfaces";
+import { ICurrentlySelected, ActivityRef } from "./Interfaces";
 
 const defaultCurrentlySelected: ICurrentlySelected = {
   category: "",
   categoryColor: "",
+  activities: [],
   activity: "",
   activityColor: "",
 };
@@ -53,40 +54,56 @@ const Tracker: FC = () => {
       }));
     }
   }, [loading, error, data]);
-  // Update color of category when category changes
+  // Update color of category and the available activities array when category changes
   useEffect(() => {
-    const currentCategory: Category = data.currentUser.categories.find(
-      ({ category_name }: Category) =>
-        category_name === currentlySelected.category
-    );
-    if (currentCategory) {
-      setCurrentlySelected((prevCurrentlySelected) => ({
-        ...prevCurrentlySelected,
-        categoryColor: currentCategory.color,
-      }));
+    if (data) {
+      const currentCategory: Category = data.currentUser.categories.find(
+        ({ category_name }: Category) =>
+          category_name === currentlySelected.category
+      );
+      let ActivitiesArray: ActivityRef[] = [];
+
+      if (currentCategory) {
+        currentCategory.activities.forEach((activity) => {
+          ActivitiesArray.push({
+            title: activity.title,
+            color: activity.color,
+          });
+        });
+        setCurrentlySelected((prevCurrentlySelected) => ({
+          ...prevCurrentlySelected,
+          categoryColor: currentCategory.color,
+          activities: ActivitiesArray,
+        }));
+      }
     }
   }, [currentlySelected.category, data]);
   // Update color of activity when activity changes
   useEffect(() => {
-    const currentCategory: Category = data.currentUser.categories.find(
-      ({ category_name }: Category) =>
-        category_name === currentlySelected.category
-    );
-    let currentActivity: Activity | undefined = undefined;
-    if (currentCategory) {
-      currentActivity = currentCategory.activities.find(
-        ({ title }: Activity) => title === currentlySelected.activity
+    console.log("my time has come.");
+    if (data) {
+      const currentCategory: Category = data.currentUser.categories.find(
+        ({ category_name }: Category) =>
+          category_name === currentlySelected.category
       );
-    }
-    if (currentActivity) {
-      setCurrentlySelected((prevCurrentlySelected) => ({
-        ...prevCurrentlySelected,
-        categoryColor: currentCategory.color,
-      }));
+      let currentActivity: Activity | undefined = undefined;
+      if (currentCategory) {
+        currentActivity = currentCategory.activities.find(
+          ({ title }: Activity) => title === currentlySelected.activity
+        );
+      }
+      if (currentActivity) {
+        const FoundActivity: Activity = currentActivity;
+        setCurrentlySelected((prevCurrentlySelected) => ({
+          ...prevCurrentlySelected,
+          activityColor: FoundActivity.color,
+        }));
+      }
     }
   }, [currentlySelected.activity, currentlySelected.category, data]);
   const classes = MainLayoutStyles();
   console.log("rerender", loading, error, data);
+  console.log(currentlySelected);
   return (
     <Grid container>
       <Grid item xs={12}>

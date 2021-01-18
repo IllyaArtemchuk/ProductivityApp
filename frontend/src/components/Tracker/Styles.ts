@@ -82,7 +82,7 @@ interface DropdownProps {
   color: string;
 }
 
-export const DropDownStyles = makeStyles({
+export const DropdownStyles = makeStyles({
   formControl: {
     marginTop: -2,
   },
@@ -91,7 +91,12 @@ export const DropDownStyles = makeStyles({
   },
   select: {
     fontSize: FontSize.size24,
+    color: (props: DropdownProps) => props.color,
     fontWeight: FontWeight.heavy,
+  },
+  placeHolder: {
+    color: NeutralColors.Light,
+    fontSize: FontSize.size24,
   },
   typography: {
     marginRight: 5,
@@ -100,14 +105,5 @@ export const DropDownStyles = makeStyles({
   },
   emphasized: {
     fontWeight: FontWeight.heavy,
-  },
-});
-
-interface OptionProps {
-  color: string;
-}
-export const DropdownOptionStyles = makeStyles({
-  option: {
-    color: (props: OptionProps) => props.color,
   },
 });
