@@ -20,7 +20,7 @@ export enum NeutralColors {
 }
 
 export enum PrimaryColors {
-  Lightest = "hsla(210, 60%, 59%, 1)",
+  Lightest = "hsla(210, 76%, 84%, 1)",
   Light = "hsla(210, 60%, 47%, 1)",
   Base = "hsla(210, 60%, 33%, 1)",
   Dark = "hsla(210, 60%, 24%, 1)",

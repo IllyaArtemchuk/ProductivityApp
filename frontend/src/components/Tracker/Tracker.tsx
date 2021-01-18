@@ -7,6 +7,7 @@ import { MainLayoutStyles } from "./Styles";
 import ActivitySelector from "./ActivitySelector";
 import { Category, Activity } from "../../interfaces/UserTypes";
 import { ICurrentlySelected, ActivityRef } from "./Interfaces";
+import CategoryModal from "../CategoryModal/CategoryModal";
 
 const defaultCurrentlySelected: ICurrentlySelected = {
   category: "",
@@ -102,12 +103,15 @@ const Tracker: FC = () => {
     }
   }, [currentlySelected.activity, currentlySelected.category, data]);
   const classes = MainLayoutStyles();
-  console.log("rerender", loading, error, data);
-  console.log(currentlySelected);
   return (
     <Grid container>
+      <Grid item xs={undefined} md={2} />
+      <Grid item xs={12} md={8}>
+        <CategoryModal />
+        <CurrentDisplay currentlySelected={currentlySelected} />
+      </Grid>
+      <Grid item xs={2} />
       <Grid item xs={12}>
-        <CurrentDisplay />
         <div className={classes.ActivitySelector}>
           <ActivitySelector
             currentlySelected={currentlySelected}

@@ -20,6 +20,7 @@ export const CurrentDisplayStyles = makeStyles({
   },
   timerContainer: {
     marginBottom: 15,
+    marginTop: -20,
   },
   box: {
     border: "solid",
@@ -29,29 +30,15 @@ export const CurrentDisplayStyles = makeStyles({
     borderRadius: 10,
     textAlign: "center",
     height: 250,
+    maxWidth: 1200,
+    minWidth: 350,
   },
-  timerControl: {
-    height: 90,
-    width: 90,
-    backgroundColor: AccentColors.LightGreen,
-    boxShadow: `inset 0 2px 0 ${AccentColors.LightestGreen}, 0 1px 6px hsla(0, 0%, 0%, .4)`,
-    color: AccentColors.DarkGreen,
-    "&:hover": {
-      backgroundColor: ThemeColors.FadedGreen,
-      color: ThemeColors.Sand,
-    },
-  },
-  controlButton: { fontSize: 65 },
-  button: {
-    width: 100,
-    height: 40,
-    backgroundColor: ThemeColors.Sand,
+  currentActivity: {
+    textAlign: "right",
+    color: PrimaryColors.Lightest,
+    marginRight: 10,
   },
 });
-
-interface OptionProps {
-  color: string;
-}
 
 export const ActivitySelectorStyles = makeStyles({
   container: {
@@ -106,4 +93,26 @@ export const DropdownStyles = makeStyles({
   emphasized: {
     fontWeight: FontWeight.heavy,
   },
+});
+
+interface BProps {
+  disabled: boolean;
+}
+
+export const StartButtonStyles = makeStyles({
+  timerControl: {
+    height: 90,
+    width: 90,
+    backgroundColor: AccentColors.LightGreen,
+    boxShadow: (props: BProps) =>
+      `inset 0 2px 0 ${
+        props.disabled ? NeutralColors.Light : AccentColors.LightestGreen
+      }, 0 1px 6px hsla(0, 0%, 0%, .4)`,
+    color: AccentColors.DarkGreen,
+    "&:hover": {
+      backgroundColor: ThemeColors.FadedGreen,
+      color: ThemeColors.Sand,
+    },
+  },
+  controlButton: { fontSize: 65 },
 });

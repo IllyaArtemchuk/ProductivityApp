@@ -19,12 +19,7 @@ const ActivitySelector: FC<IProps> = ({
 
   console.log(currentlySelected);
   return (
-    <Box
-      className={classes.container}
-      display="flex"
-      flexDirection="row"
-      flexWrap="nowrap"
-    >
+    <Box className={classes.container} display="flex" flexDirection="row">
       <Typography className={classes.typography}>
         I'm <span className={classes.emphasized}>Focusing</span> on
       </Typography>
