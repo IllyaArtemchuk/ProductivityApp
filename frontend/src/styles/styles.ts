@@ -39,16 +39,22 @@ export enum AccentColors {
 }
 
 export const selectionColors = [
-  "#ffb24d",
-  "#ff4242",
-  "#4deb53",
-  "#4dc6eb",
-  "#a744f2",
-  "#e35de8",
-  "#FFEB3B",
-  "#1A237E",
-  "#263238",
-  "#7BDCB5",
+  "#e81111",
+  "#c23838",
+  "#eccf4b",
+  "#d6af00",
+  "#2abe09",
+  "#1a7506",
+  "#044853",
+  "#00bad6",
+  "#002d75",
+  "#0058e6",
+  "#210099",
+  "#451ed2",
+  "#a103ba",
+  "#a8007e",
+  "#1f1f1f",
+  "#4a5354",
 ];
 
 export enum FontSize {

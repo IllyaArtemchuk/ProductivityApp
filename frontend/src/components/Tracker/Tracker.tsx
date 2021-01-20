@@ -7,7 +7,7 @@ import { MainLayoutStyles } from "./Styles";
 import ActivitySelector from "./ActivitySelector";
 import { Category, Activity } from "../../interfaces/UserTypes";
 import { ICurrentlySelected, ActivityRef } from "./Interfaces";
-import CategoryModal from "../CategoryModal/CategoryModal";
+import CategoryModal from "../Modals/CategoryModal/CategoryModal";
 
 const defaultCurrentlySelected: ICurrentlySelected = {
   category: "",
