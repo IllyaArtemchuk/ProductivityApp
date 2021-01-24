@@ -113,6 +113,7 @@ const Tracker: FC = () => {
       <Grid item xs={undefined} md={2} />
       <Grid item xs={12} md={8}>
         <CategoryModal
+          userID={data ? data.currentUser.id : null}
           categories={data ? data.currentUser.categories : []}
           open={categoryModalOpen}
           close={setCategoryModalOpen}

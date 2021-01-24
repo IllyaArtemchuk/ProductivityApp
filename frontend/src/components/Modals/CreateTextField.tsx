@@ -30,6 +30,7 @@ const CreateTextField: FC<IProps> = ({
   const updateTextValue = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
+    console.log("trigerred");
     if (e.target.value) {
       let currentChar = e.target.value[e.target.value.length - 1].charCodeAt(0);
 
@@ -40,8 +41,9 @@ const CreateTextField: FC<IProps> = ({
       ) {
         setTextValue(e.target.value);
       }
+    } else {
+      setTextValue(e.target.value);
     }
-    setTextValue(e.target.value);
   };
   return (
     <OutsideClickHandler onOutsideClick={() => setFocused(false)}>

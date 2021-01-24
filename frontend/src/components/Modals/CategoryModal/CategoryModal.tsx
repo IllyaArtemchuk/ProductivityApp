@@ -7,19 +7,25 @@ import {
   DialogActions,
   Button,
 } from "@material-ui/core";
+import { useMutation } from "@apollo/client";
 import { CategoryModalStyles } from "./Styles";
 import CreateTextField from "../CreateTextField";
 import { CategoryRef } from "../../Tracker/Interfaces";
+import { CREATE_CATEGORY } from "../../../graphql/createCategory";
+import { CREATE_ACTIVITY } from "../../../graphql/createActivity";
 
 interface IProps {
   categories: Array<CategoryRef>;
+  userID: string;
   open: boolean;
   close: Dispatch<SetStateAction<boolean>>;
 }
 
-const CategoryModal: FC<IProps> = ({ categories, open, close }) => {
+const CategoryModal: FC<IProps> = ({ categories, open, close, userID }) => {
   const classes = CategoryModalStyles();
-
+  const [serverError, setServerError] = useState("");
+  const [createCategory] = useMutation(CREATE_CATEGORY);
+  const [createActivity] = useMutation(CREATE_ACTIVITY);
   const [newCategory, setNewCategory] = useState("");
   const [newActivity, setNewActivity] = useState("");
   const [categoryValidationError, setCategoryValidationError] = useState("");
@@ -64,7 +70,26 @@ const CategoryModal: FC<IProps> = ({ categories, open, close }) => {
         return;
       }
     }
-    setCategoryValidationError("All good!");
+    createCategory({
+      variables: {
+        userID: userID,
+        categoryName: newCategory,
+        color: categoryColor,
+      },
+    })
+      .then(() => {
+        createActivity({
+          variables: {
+            userID: userID,
+            categoryName: newCategory,
+            activityTitle: newActivity,
+            color: activityColor,
+          },
+        });
+      })
+      .catch((err) => {
+        setServerError("A Server Error occured.");
+      });
     return;
   };
 
