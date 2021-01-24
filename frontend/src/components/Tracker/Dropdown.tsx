@@ -8,6 +8,7 @@ interface IProps {
   selectedColor: string;
   currentlySelected: ICurrentlySelected;
   setCurrentlySelected: Dispatch<SetStateAction<ICurrentlySelected>>;
+  openModal: Dispatch<SetStateAction<boolean>>;
   categories?: Array<CategoryRef>;
   type: "activity" | "category";
 }
@@ -17,6 +18,7 @@ const Dropdown: FC<IProps> = ({
   currentlySelected,
   setCurrentlySelected,
   categories,
+  openModal,
   type,
 }) => {
   useEffect(() => {
@@ -27,6 +29,30 @@ const Dropdown: FC<IProps> = ({
       }));
     }
   }, [currentlySelected.category, type, setCurrentlySelected]);
+
+  useEffect(() => {
+    if (type === "category") {
+      if (currentlySelected.category === "New+") {
+        setCurrentlySelected((prevCurrentlySelected) => ({
+          ...prevCurrentlySelected,
+          category: "",
+          activity: "",
+        }));
+      }
+    } else {
+      if (currentlySelected.activity === "New+") {
+        setCurrentlySelected((prevCurrentlySelected) => ({
+          ...prevCurrentlySelected,
+          activity: "",
+        }));
+      }
+    }
+  }, [
+    currentlySelected.category,
+    currentlySelected.activity,
+    type,
+    setCurrentlySelected,
+  ]);
   const styleProps = { color: selectedColor };
   const classes = DropdownStyles(styleProps);
 
@@ -112,7 +138,11 @@ const Dropdown: FC<IProps> = ({
         {type === "category"
           ? generateCategoryOptions(categories)
           : generateActivityOptions(currentlySelected.activities)}
-        <MenuItem value="New" className={classes.option}>
+        <MenuItem
+          value="New+"
+          className={classes.option}
+          onClick={() => openModal(true)}
+        >
           New +
         </MenuItem>
       </Select>

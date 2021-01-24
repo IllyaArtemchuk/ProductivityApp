@@ -23,7 +23,10 @@ const Tracker: FC = () => {
     currentlySelected,
     setCurrentlySelected,
   ] = useState<ICurrentlySelected>(defaultCurrentlySelected);
+
   const [minutes, setMinutes] = useState(0);
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+  // Update Currently Selected based on server-side data
   useEffect(() => {
     if (loading || error) {
       setCurrentlySelected(defaultCurrentlySelected);
@@ -55,6 +58,7 @@ const Tracker: FC = () => {
       }));
     }
   }, [loading, error, data]);
+
   // Update color of category and the available activities array when category changes
   useEffect(() => {
     if (data) {
@@ -79,9 +83,9 @@ const Tracker: FC = () => {
       }
     }
   }, [currentlySelected.category, data]);
+
   // Update color of activity when activity changes
   useEffect(() => {
-    console.log("my time has come.");
     if (data) {
       const currentCategory: Category = data.currentUser.categories.find(
         ({ category_name }: Category) =>
@@ -102,18 +106,24 @@ const Tracker: FC = () => {
       }
     }
   }, [currentlySelected.activity, currentlySelected.category, data]);
+
   const classes = MainLayoutStyles();
   return (
     <Grid container>
       <Grid item xs={undefined} md={2} />
       <Grid item xs={12} md={8}>
-        <CategoryModal />
+        <CategoryModal
+          categories={data ? data.currentUser.categories : []}
+          open={categoryModalOpen}
+          close={setCategoryModalOpen}
+        />
         <CurrentDisplay currentlySelected={currentlySelected} />
       </Grid>
       <Grid item xs={2} />
       <Grid item xs={12}>
         <div className={classes.ActivitySelector}>
           <ActivitySelector
+            openCategoryModal={setCategoryModalOpen}
             currentlySelected={currentlySelected}
             setCurrentlySelected={setCurrentlySelected}
             categories={data ? data.currentUser.categories : []}

@@ -27,5 +27,12 @@ export const CreateTextFieldStyles = makeStyles({
         borderColor: (props: TextFieldProps) => props.color,
       },
     },
+    marginBottom: 72,
+  },
+  ColorPicker: {
+    zIndex: 3,
+    marginTop: -72,
+    marginLeft: -3,
+    marginRight: -3,
   },
 });

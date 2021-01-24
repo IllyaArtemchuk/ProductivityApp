@@ -8,12 +8,14 @@ interface IProps {
   currentlySelected: ICurrentlySelected;
   setCurrentlySelected: Dispatch<SetStateAction<ICurrentlySelected>>;
   categories: Array<CategoryRef>;
+  openCategoryModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const ActivitySelector: FC<IProps> = ({
   currentlySelected,
   setCurrentlySelected,
   categories,
+  openCategoryModal,
 }) => {
   const classes = ActivitySelectorStyles();
 
@@ -26,6 +28,7 @@ const ActivitySelector: FC<IProps> = ({
       <Dropdown
         selectedColor={currentlySelected.categoryColor}
         currentlySelected={currentlySelected}
+        openModal={openCategoryModal}
         setCurrentlySelected={setCurrentlySelected}
         categories={categories}
         type="category"
@@ -35,6 +38,7 @@ const ActivitySelector: FC<IProps> = ({
       </Typography>
       <Dropdown
         selectedColor={currentlySelected.activityColor}
+        openModal={openCategoryModal}
         currentlySelected={currentlySelected}
         setCurrentlySelected={setCurrentlySelected}
         type="activity"
