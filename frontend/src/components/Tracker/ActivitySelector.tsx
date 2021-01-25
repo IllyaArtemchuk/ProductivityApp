@@ -1,5 +1,5 @@
 import { FC, SetStateAction, Dispatch } from "react";
-import { Typography, Box } from "@material-ui/core";
+import { Typography, Box, LinearProgress } from "@material-ui/core";
 import { ActivitySelectorStyles } from "./Styles";
 import { ICurrentlySelected, CategoryRef } from "./Interfaces";
 import Dropdown from "./Dropdown";
@@ -9,6 +9,8 @@ interface IProps {
   setCurrentlySelected: Dispatch<SetStateAction<ICurrentlySelected>>;
   categories: Array<CategoryRef>;
   openCategoryModal: Dispatch<SetStateAction<boolean>>;
+  openActivityModal: Dispatch<SetStateAction<boolean>>;
+  loadingSubmission: boolean;
 }
 
 const ActivitySelector: FC<IProps> = ({
@@ -16,10 +18,13 @@ const ActivitySelector: FC<IProps> = ({
   setCurrentlySelected,
   categories,
   openCategoryModal,
+  openActivityModal,
+  loadingSubmission,
 }) => {
   const classes = ActivitySelectorStyles();
-
-  console.log(currentlySelected);
+  if (loadingSubmission) {
+    return <LinearProgress className={classes.loadingBar} />;
+  }
   return (
     <Box className={classes.container} display="flex" flexDirection="row">
       <Typography className={classes.typography}>
@@ -33,16 +38,20 @@ const ActivitySelector: FC<IProps> = ({
         categories={categories}
         type="category"
       />
-      <Typography className={classes.typography}>
-        By <span className={classes.emphasized}>Doing</span>
-      </Typography>
-      <Dropdown
-        selectedColor={currentlySelected.activityColor}
-        openModal={openCategoryModal}
-        currentlySelected={currentlySelected}
-        setCurrentlySelected={setCurrentlySelected}
-        type="activity"
-      />
+      {currentlySelected.category !== "" ? (
+        <>
+          <Typography className={classes.typography}>
+            By <span className={classes.emphasized}>Doing</span>
+          </Typography>
+          <Dropdown
+            selectedColor={currentlySelected.activityColor}
+            openModal={openActivityModal}
+            currentlySelected={currentlySelected}
+            setCurrentlySelected={setCurrentlySelected}
+            type="activity"
+          />
+        </>
+      ) : null}
     </Box>
   );
 };

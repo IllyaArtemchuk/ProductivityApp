@@ -13,6 +13,7 @@ export const CREATE_ACTIVITY = gql`
       activityTitle: $activityTitle
       color: $color
     ) {
+      id
       categories {
         category_name
       }

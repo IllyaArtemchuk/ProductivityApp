@@ -22,15 +22,6 @@ const Dropdown: FC<IProps> = ({
   type,
 }) => {
   useEffect(() => {
-    if (type === "activity") {
-      setCurrentlySelected((prevCurrentlySelected) => ({
-        ...prevCurrentlySelected,
-        activity: "",
-      }));
-    }
-  }, [currentlySelected.category, type, setCurrentlySelected]);
-
-  useEffect(() => {
     if (type === "category") {
       if (currentlySelected.category === "New+") {
         setCurrentlySelected((prevCurrentlySelected) => ({
@@ -61,6 +52,7 @@ const Dropdown: FC<IProps> = ({
       setCurrentlySelected((prevCurrentlySelected) => ({
         ...prevCurrentlySelected,
         category: value,
+        activity: "",
       }));
     } else {
       setCurrentlySelected((prevCurrentlySelected) => ({

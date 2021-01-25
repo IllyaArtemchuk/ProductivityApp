@@ -13,19 +13,28 @@ import CreateTextField from "../CreateTextField";
 import { CategoryRef } from "../../Tracker/Interfaces";
 import { CREATE_CATEGORY } from "../../../graphql/createCategory";
 import { CREATE_ACTIVITY } from "../../../graphql/createActivity";
+import { UPDATE_CURRENT_ACTION } from "../../../graphql/setCurrentAction";
 
 interface IProps {
   categories: Array<CategoryRef>;
   userID: string;
   open: boolean;
   close: Dispatch<SetStateAction<boolean>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const CategoryModal: FC<IProps> = ({ categories, open, close, userID }) => {
+const CategoryModal: FC<IProps> = ({
+  categories,
+  open,
+  close,
+  userID,
+  setLoading,
+}) => {
   const classes = CategoryModalStyles();
   const [serverError, setServerError] = useState("");
   const [createCategory] = useMutation(CREATE_CATEGORY);
   const [createActivity] = useMutation(CREATE_ACTIVITY);
+  const [updateAction] = useMutation(UPDATE_CURRENT_ACTION);
   const [newCategory, setNewCategory] = useState("");
   const [newActivity, setNewActivity] = useState("");
   const [categoryValidationError, setCategoryValidationError] = useState("");
@@ -70,6 +79,8 @@ const CategoryModal: FC<IProps> = ({ categories, open, close, userID }) => {
         return;
       }
     }
+    close(false);
+    setLoading(true);
     createCategory({
       variables: {
         userID: userID,
@@ -87,6 +98,18 @@ const CategoryModal: FC<IProps> = ({ categories, open, close, userID }) => {
           },
         });
       })
+      .then(() => {
+        updateAction({
+          variables: {
+            userID: userID,
+            category: newCategory,
+            activity: newActivity,
+            minutes: 0,
+            timeStarted: "",
+          },
+        });
+      })
+      .then(() => setLoading(false))
       .catch((err) => {
         setServerError("A Server Error occured.");
       });

@@ -11,6 +11,7 @@ export const CREATE_CATEGORY = gql`
       categoryName: $categoryName
       color: $color
     ) {
+      id
       categories {
         category_name
       }

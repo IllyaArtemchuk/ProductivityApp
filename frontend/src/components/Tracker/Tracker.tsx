@@ -8,6 +8,7 @@ import ActivitySelector from "./ActivitySelector";
 import { Category, Activity } from "../../interfaces/UserTypes";
 import { ICurrentlySelected, ActivityRef } from "./Interfaces";
 import CategoryModal from "../Modals/CategoryModal/CategoryModal";
+import ActivityModal from "../Modals/ActivityModal/ActivityModal";
 
 const defaultCurrentlySelected: ICurrentlySelected = {
   category: "",
@@ -23,9 +24,11 @@ const Tracker: FC = () => {
     currentlySelected,
     setCurrentlySelected,
   ] = useState<ICurrentlySelected>(defaultCurrentlySelected);
-
+  const [loadingSubmission, setLoadingSubmission] = useState(false);
   const [minutes, setMinutes] = useState(0);
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+  const [activityModalOpen, setActivityModalOpen] = useState(false);
+
   // Update Currently Selected based on server-side data
   useEffect(() => {
     if (loading || error) {
@@ -59,7 +62,6 @@ const Tracker: FC = () => {
     }
   }, [loading, error, data]);
 
-  // Update color of category and the available activities array when category changes
   useEffect(() => {
     if (data) {
       const currentCategory: Category = data.currentUser.categories.find(
@@ -117,6 +119,15 @@ const Tracker: FC = () => {
           categories={data ? data.currentUser.categories : []}
           open={categoryModalOpen}
           close={setCategoryModalOpen}
+          setLoading={setLoadingSubmission}
+        />
+        <ActivityModal
+          userID={data ? data.currentUser.id : null}
+          setLoading={setLoadingSubmission}
+          currentCategory={currentlySelected.category}
+          activities={currentlySelected.activities}
+          open={activityModalOpen}
+          close={setActivityModalOpen}
         />
         <CurrentDisplay currentlySelected={currentlySelected} />
       </Grid>
@@ -124,7 +135,9 @@ const Tracker: FC = () => {
       <Grid item xs={12}>
         <div className={classes.ActivitySelector}>
           <ActivitySelector
+            loadingSubmission={loadingSubmission}
             openCategoryModal={setCategoryModalOpen}
+            openActivityModal={setActivityModalOpen}
             currentlySelected={currentlySelected}
             setCurrentlySelected={setCurrentlySelected}
             categories={data ? data.currentUser.categories : []}

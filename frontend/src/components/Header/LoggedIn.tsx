@@ -8,7 +8,6 @@ interface Props {
 
 const LoggedIn: FC<Props> = ({ username }) => {
   const classes = LoggedInStyles();
-  console.log(generateBackendURL("api/logout"));
   return (
     <>
       <Typography variant="h5" className={classes.username}>

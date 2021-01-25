@@ -1,5 +1,11 @@
 import { FC } from "react";
-import { AppBar, Typography, Container, Toolbar } from "@material-ui/core";
+import {
+  AppBar,
+  Typography,
+  Container,
+  Toolbar,
+  CircularProgress,
+} from "@material-ui/core";
 import LoggedIn from "./LoggedIn";
 import GoogleButton from "react-google-button";
 import { HeaderStyles } from "./Styles";
@@ -26,7 +32,9 @@ const Header: FC<Props> = ({ currentUser, currentUserLoading }) => {
           <Typography variant="h4" className={classes.title}>
             Productivity App
           </Typography>
-          {currentUser ? (
+          {currentUserLoading ? (
+            <CircularProgress color="secondary" />
+          ) : currentUser ? (
             <LoggedIn username={currentUser.username} />
           ) : (
             <GoogleButton

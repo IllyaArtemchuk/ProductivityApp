@@ -30,7 +30,6 @@ const CreateTextField: FC<IProps> = ({
   const updateTextValue = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    console.log("trigerred");
     if (e.target.value) {
       let currentChar = e.target.value[e.target.value.length - 1].charCodeAt(0);
 
@@ -50,6 +49,7 @@ const CreateTextField: FC<IProps> = ({
       <div className={classes.TextWrapper} onClick={() => setFocused(true)}>
         <TextField
           autoFocus={autoFocus ? true : false}
+          autoComplete="off"
           error={error === "" ? false : true}
           helperText={error === "" ? null : error}
           id={type}

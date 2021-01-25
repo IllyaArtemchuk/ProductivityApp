@@ -45,6 +45,11 @@ export const ActivitySelectorStyles = makeStyles({
     position: "relative",
     justifyContent: "center",
   },
+  loadingBar: {
+    width: 600,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
   formControl: {
     marginTop: -2,
   },
