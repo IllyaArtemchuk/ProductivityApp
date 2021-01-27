@@ -10,6 +10,7 @@ interface IProps {
   setCurrentlySelected: Dispatch<SetStateAction<ICurrentlySelected>>;
   openModal: Dispatch<SetStateAction<boolean>>;
   categories?: Array<CategoryRef>;
+  seconds: number;
   type: "activity" | "category";
 }
 
@@ -19,6 +20,7 @@ const Dropdown: FC<IProps> = ({
   setCurrentlySelected,
   categories,
   openModal,
+  seconds,
   type,
 }) => {
   useEffect(() => {
@@ -113,6 +115,8 @@ const Dropdown: FC<IProps> = ({
             : currentlySelected.activity
         }
         displayEmpty
+        disabled={!!seconds}
+        classes={{ disabled: classes.disabledDropDown }}
         onChange={(event) =>
           handleCategoryChange(event.target.value as string, type)
         }

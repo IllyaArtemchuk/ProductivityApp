@@ -6,9 +6,10 @@ import { ICurrentlySelected } from "./Interfaces";
 
 interface IProps {
   currentlySelected: ICurrentlySelected;
+  onClick: any;
 }
 
-const StartButton: FC<IProps> = ({ currentlySelected }) => {
+const StartButton: FC<IProps> = ({ currentlySelected, onClick }) => {
   const isDisabled = () => {
     if (
       currentlySelected.category !== "" &&
@@ -21,7 +22,11 @@ const StartButton: FC<IProps> = ({ currentlySelected }) => {
   const styleProps = { disabled: isDisabled() };
   const classes = StartButtonStyles(styleProps);
   return (
-    <IconButton className={classes.timerControl} disabled={isDisabled()}>
+    <IconButton
+      className={classes.timerControl}
+      disabled={isDisabled()}
+      onClick={onClick}
+    >
       <PlayArrowIcon className={classes.controlButton} />
     </IconButton>
   );

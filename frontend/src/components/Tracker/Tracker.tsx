@@ -6,7 +6,7 @@ import { CURRENT_USER } from "../../graphql/getCurrentUser";
 import { MainLayoutStyles } from "./Styles";
 import ActivitySelector from "./ActivitySelector";
 import { Category, Activity } from "../../interfaces/UserTypes";
-import { ICurrentlySelected, ActivityRef } from "./Interfaces";
+import { ICurrentlySelected, ActivityRef, ICurrentAction } from "./Interfaces";
 import CategoryModal from "../Modals/CategoryModal/CategoryModal";
 import ActivityModal from "../Modals/ActivityModal/ActivityModal";
 
@@ -18,14 +18,22 @@ const defaultCurrentlySelected: ICurrentlySelected = {
   activityColor: "",
 };
 
+const defaultCurrentAction: ICurrentAction = {
+  category: "",
+  activity: "",
+  timeStarted: "",
+  minutes: 0,
+};
+
 const Tracker: FC = () => {
   const { data, loading, error } = useQuery(CURRENT_USER);
   const [
     currentlySelected,
     setCurrentlySelected,
   ] = useState<ICurrentlySelected>(defaultCurrentlySelected);
+  const [currentAction, setCurrentAction] = useState(defaultCurrentAction);
   const [loadingSubmission, setLoadingSubmission] = useState(false);
-  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const [activityModalOpen, setActivityModalOpen] = useState(false);
 
@@ -59,6 +67,7 @@ const Tracker: FC = () => {
         categoryColor: categoryColor,
         activityColor: activityColor,
       }));
+      setSeconds(data.currentUser.currentAction.minutes * 60);
     }
   }, [loading, error, data]);
 
@@ -129,12 +138,18 @@ const Tracker: FC = () => {
           open={activityModalOpen}
           close={setActivityModalOpen}
         />
-        <CurrentDisplay currentlySelected={currentlySelected} />
+        <CurrentDisplay
+          currentlySelected={currentlySelected}
+          currentAction={currentAction}
+          seconds={seconds}
+          setSeconds={setSeconds}
+        />
       </Grid>
       <Grid item xs={2} />
       <Grid item xs={12}>
         <div className={classes.ActivitySelector}>
           <ActivitySelector
+            seconds={seconds}
             loadingSubmission={loadingSubmission}
             openCategoryModal={setCategoryModalOpen}
             openActivityModal={setActivityModalOpen}

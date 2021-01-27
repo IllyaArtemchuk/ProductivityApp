@@ -38,6 +38,33 @@ export const CurrentDisplayStyles = makeStyles({
     color: PrimaryColors.Lightest,
     marginRight: 10,
   },
+  pauseButton: {
+    marginTop: 18,
+    marginRight: 20,
+    width: 100,
+    height: 46,
+    backgroundColor: AccentColors.LightGreen,
+    color: AccentColors.DarkestGreen,
+    "&:hover": {
+      backgroundColor: ThemeColors.FadedGreen,
+      color: ThemeColors.Sand,
+    },
+  },
+  finishButton: {
+    marginTop: 18,
+    marginLeft: 20,
+    width: 100,
+    height: 46,
+    color: NeutralColors.Dark,
+    backgroundColor: AccentColors.Red,
+    "&:hover": {
+      backgroundColor: AccentColors.LightRed,
+      color: NeutralColors.White,
+    },
+  },
+  buttonContainer: {
+    margin: "auto",
+  },
 });
 
 export const ActivitySelectorStyles = makeStyles({
@@ -97,6 +124,10 @@ export const DropdownStyles = makeStyles({
   },
   emphasized: {
     fontWeight: FontWeight.heavy,
+  },
+  disabledDropDown: {
+    color: (props: DropdownProps) => props.color,
+    opacity: 0.5,
   },
 });
 

@@ -14,6 +14,7 @@ import { CategoryRef } from "../../Tracker/Interfaces";
 import { CREATE_CATEGORY } from "../../../graphql/createCategory";
 import { CREATE_ACTIVITY } from "../../../graphql/createActivity";
 import { UPDATE_CURRENT_ACTION } from "../../../graphql/setCurrentAction";
+import { CURRENT_USER } from "../../../graphql/getCurrentUser";
 
 interface IProps {
   categories: Array<CategoryRef>;
@@ -32,9 +33,12 @@ const CategoryModal: FC<IProps> = ({
 }) => {
   const classes = CategoryModalStyles();
   const [serverError, setServerError] = useState("");
-  const [createCategory] = useMutation(CREATE_CATEGORY);
+  const [createCategory, { loading }] = useMutation(CREATE_CATEGORY);
   const [createActivity] = useMutation(CREATE_ACTIVITY);
-  const [updateAction] = useMutation(UPDATE_CURRENT_ACTION);
+  const [updateAction] = useMutation(UPDATE_CURRENT_ACTION, {
+    refetchQueries: [{ query: CURRENT_USER }],
+    awaitRefetchQueries: true,
+  });
   const [newCategory, setNewCategory] = useState("");
   const [newActivity, setNewActivity] = useState("");
   const [categoryValidationError, setCategoryValidationError] = useState("");
@@ -107,9 +111,9 @@ const CategoryModal: FC<IProps> = ({
             minutes: 0,
             timeStarted: "",
           },
-        });
+        }).then(() => setLoading(false));
       })
-      .then(() => setLoading(false))
+
       .catch((err) => {
         setServerError("A Server Error occured.");
       });
@@ -148,6 +152,7 @@ const CategoryModal: FC<IProps> = ({
           Cancel
         </Button>
         <Button
+          disabled={loading}
           color="primary"
           variant="contained"
           className={classes.SubmitButton}

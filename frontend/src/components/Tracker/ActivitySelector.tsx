@@ -10,6 +10,7 @@ interface IProps {
   categories: Array<CategoryRef>;
   openCategoryModal: Dispatch<SetStateAction<boolean>>;
   openActivityModal: Dispatch<SetStateAction<boolean>>;
+  seconds: number;
   loadingSubmission: boolean;
 }
 
@@ -19,6 +20,7 @@ const ActivitySelector: FC<IProps> = ({
   categories,
   openCategoryModal,
   openActivityModal,
+  seconds,
   loadingSubmission,
 }) => {
   const classes = ActivitySelectorStyles();
@@ -33,6 +35,7 @@ const ActivitySelector: FC<IProps> = ({
       <Dropdown
         selectedColor={currentlySelected.categoryColor}
         currentlySelected={currentlySelected}
+        seconds={seconds}
         openModal={openCategoryModal}
         setCurrentlySelected={setCurrentlySelected}
         categories={categories}
@@ -46,6 +49,7 @@ const ActivitySelector: FC<IProps> = ({
           <Dropdown
             selectedColor={currentlySelected.activityColor}
             openModal={openActivityModal}
+            seconds={seconds}
             currentlySelected={currentlySelected}
             setCurrentlySelected={setCurrentlySelected}
             type="activity"

@@ -35,8 +35,9 @@ const ActivityModal: FC<IProps> = ({
   const [newActivity, setNewActivity] = useState("");
   const [updateAction] = useMutation(UPDATE_CURRENT_ACTION, {
     refetchQueries: [{ query: CURRENT_USER }],
+    awaitRefetchQueries: true,
   });
-  const [createActivity] = useMutation(CREATE_ACTIVITY);
+  const [createActivity, { loading }] = useMutation(CREATE_ACTIVITY);
   const [activityColor, setActivityColor] = useState("#0058e6");
   const [validationError, setValidationError] = useState("");
 
@@ -105,6 +106,7 @@ const ActivityModal: FC<IProps> = ({
           Cancel
         </Button>
         <Button
+          disabled={loading}
           color="primary"
           variant="contained"
           className={classes.SubmitButton}
