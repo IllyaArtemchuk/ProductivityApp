@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
 const actionSchema = new Schema({
-  timeStarted: Date,
-  timeEnded: Date,
+  timeStarted: String,
+  timeEnded: String,
   minutes: Number,
 });
 

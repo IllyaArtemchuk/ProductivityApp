@@ -3,7 +3,6 @@ import {
   GraphQLInt,
   GraphQLList,
   GraphQLObjectType,
-  GraphQLScalarType,
   GraphQLString,
 } from "graphql";
 import { findActions } from "../../controllers/ActionController";

@@ -25,12 +25,12 @@ export const newAction = async (
   activityTitle: string,
   timeStarted: string,
   timeEnded: string,
-  minutes: string
+  minutes: number
 ): Promise<Document | null> => {
   const newDate = new Date();
   const createdAction = await new Action({
-    timeStarted: newDate,
-    timeEnded: newDate,
+    timeStarted: timeStarted,
+    timeEnded: timeEnded,
     minutes: minutes,
   }).save();
   if (!createdAction) {

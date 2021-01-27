@@ -3,6 +3,7 @@ import {
   GraphQLObjectType,
   GraphQLScalarType,
   GraphQLString,
+  GraphQLUnionType,
 } from "graphql";
 import { UserType } from "./types/user_type";
 import {

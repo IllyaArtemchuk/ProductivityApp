@@ -6,7 +6,7 @@ import { CURRENT_USER } from "../../graphql/getCurrentUser";
 import { MainLayoutStyles } from "./Styles";
 import ActivitySelector from "./ActivitySelector";
 import { Category, Activity } from "../../interfaces/UserTypes";
-import { ICurrentlySelected, ActivityRef, ICurrentAction } from "./Interfaces";
+import { ICurrentlySelected, ActivityRef } from "./Interfaces";
 import CategoryModal from "../Modals/CategoryModal/CategoryModal";
 import ActivityModal from "../Modals/ActivityModal/ActivityModal";
 
@@ -18,20 +18,12 @@ const defaultCurrentlySelected: ICurrentlySelected = {
   activityColor: "",
 };
 
-const defaultCurrentAction: ICurrentAction = {
-  category: "",
-  activity: "",
-  timeStarted: "",
-  minutes: 0,
-};
-
 const Tracker: FC = () => {
   const { data, loading, error } = useQuery(CURRENT_USER);
   const [
     currentlySelected,
     setCurrentlySelected,
   ] = useState<ICurrentlySelected>(defaultCurrentlySelected);
-  const [currentAction, setCurrentAction] = useState(defaultCurrentAction);
   const [loadingSubmission, setLoadingSubmission] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
@@ -67,6 +59,7 @@ const Tracker: FC = () => {
         categoryColor: categoryColor,
         activityColor: activityColor,
       }));
+      console.log(data.currentUser.currentAction.minutes);
       setSeconds(data.currentUser.currentAction.minutes * 60);
     }
   }, [loading, error, data]);
@@ -139,8 +132,8 @@ const Tracker: FC = () => {
           close={setActivityModalOpen}
         />
         <CurrentDisplay
+          userID={data ? data.currentUser.id : null}
           currentlySelected={currentlySelected}
-          currentAction={currentAction}
           seconds={seconds}
           setSeconds={setSeconds}
         />

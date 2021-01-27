@@ -15,10 +15,3 @@ export interface ActivityRef {
   title: string;
   color: string;
 }
-
-export interface ICurrentAction {
-  category: string;
-  activity: string;
-  timeStarted: string;
-  minutes: number;
-}
