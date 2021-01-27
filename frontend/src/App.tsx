@@ -9,7 +9,6 @@ import Tracker from "./components/Tracker/Tracker";
 
 const App: FC = () => {
   const { data, loading } = useQuery(CURRENT_USER);
-
   return (
     <Container>
       <BrowserRouter>

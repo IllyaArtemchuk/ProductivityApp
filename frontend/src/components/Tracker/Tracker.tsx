@@ -9,6 +9,7 @@ import { Category, Activity } from "../../interfaces/UserTypes";
 import { ICurrentlySelected, ActivityRef } from "./Interfaces";
 import CategoryModal from "../Modals/CategoryModal/CategoryModal";
 import ActivityModal from "../Modals/ActivityModal/ActivityModal";
+import ActionTable from "../ActionTable/ActionTable";
 
 const defaultCurrentlySelected: ICurrentlySelected = {
   category: "",
@@ -151,6 +152,10 @@ const Tracker: FC = () => {
             categories={data ? data.currentUser.categories : []}
           />
         </div>
+      </Grid>
+      <Grid item xs={undefined} md={2} />
+      <Grid item md={8} xs={12}>
+        <ActionTable userData={data} />
       </Grid>
     </Grid>
   );
