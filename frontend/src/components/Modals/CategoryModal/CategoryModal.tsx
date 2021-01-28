@@ -13,7 +13,7 @@ import CreateTextField from "../CreateTextField";
 import { CategoryRef } from "../../Tracker/Interfaces";
 import { CREATE_CATEGORY } from "../../../graphql/createCategory";
 import { CREATE_ACTIVITY } from "../../../graphql/createActivity";
-import { UPDATE_CURRENT_ACTION } from "../../../graphql/setCurrentAction";
+import { UPDATE_CURRENT_ACTION } from "../../../graphql/updateCurrentAction";
 import { CURRENT_USER } from "../../../graphql/getCurrentUser";
 
 interface IProps {

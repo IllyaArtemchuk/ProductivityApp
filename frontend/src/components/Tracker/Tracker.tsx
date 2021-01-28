@@ -155,7 +155,7 @@ const Tracker: FC = () => {
       </Grid>
       <Grid item xs={undefined} md={2} />
       <Grid item md={8} xs={12}>
-        <ActionTable userData={data} />
+        <ActionTable userData={data ? data.currentUser : null} />
       </Grid>
     </Grid>
   );

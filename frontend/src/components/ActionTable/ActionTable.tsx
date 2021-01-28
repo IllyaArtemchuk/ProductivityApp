@@ -5,22 +5,15 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  TableHead,
   Paper,
 } from "@material-ui/core";
 import { ActionTableStyles } from "./Styles";
 import { User } from "../../interfaces/UserTypes";
+import ActionTableRow from "./ActionTableRow";
+import { IAction } from "./Interfaces";
 
 interface IProps {
   userData: User;
-}
-
-interface IAction {
-  category: string;
-  activity: string;
-  timeStarted: string;
-  timeEnded: string;
-  minutes: number;
 }
 
 const ActionTable: FC<IProps> = ({ userData }) => {
@@ -34,7 +27,9 @@ const ActionTable: FC<IProps> = ({ userData }) => {
           act.actions.forEach((action) => {
             actionsArray.push({
               category: cat.category_name,
+              categoryColor: cat.color,
               activity: act.title,
+              activityColor: act.color,
               timeStarted: action.timeStarted,
               timeEnded: action.timeEnded,
               minutes: action.minutes,
@@ -55,15 +50,19 @@ const ActionTable: FC<IProps> = ({ userData }) => {
       className={classes.TableContainer}
     >
       <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Category/Activity</TableCell>
-            <TableCell>Minutes</TableCell>
-            <TableCell align="right">Started</TableCell>
-            <TableCell align="right">Ended</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody></TableBody>
+        {actions.length ? (
+          <TableBody>
+            {actions.map((action, ind) => (
+              <ActionTableRow key={ind} action={action} />
+            ))}
+          </TableBody>
+        ) : (
+          <TableBody>
+            <TableRow>
+              <TableCell align="center">Nothing Completed Today...</TableCell>
+            </TableRow>
+          </TableBody>
+        )}
       </Table>
     </TableContainer>
   );

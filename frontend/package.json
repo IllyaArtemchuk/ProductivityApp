@@ -14,6 +14,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "dayjs": "^1.10.4",
     "graphql": "^15.4.0",
     "http-proxy-middleware": "^0.19.1",
     "react": "16.14.0",

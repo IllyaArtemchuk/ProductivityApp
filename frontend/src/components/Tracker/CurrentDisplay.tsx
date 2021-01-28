@@ -5,8 +5,9 @@ import Timer from "react-compound-timer";
 import { CurrentDisplayStyles } from "./Styles";
 import StartButton from "./StartButton";
 import { ICurrentlySelected } from "./Interfaces";
-import { UPDATE_CURRENT_ACTION } from "../../graphql/setCurrentAction";
+import { UPDATE_CURRENT_ACTION } from "../../graphql/updateCurrentAction";
 import { CURRENT_ACTION } from "../../graphql/getCurrentAction";
+import { CREATE_ACTION } from "../../graphql/createNewAction";
 
 interface IProps {
   currentlySelected: ICurrentlySelected;
@@ -27,6 +28,7 @@ const CurrentDisplay: FC<IProps> = ({
     refetchQueries: [{ query: CURRENT_ACTION }],
     awaitRefetchQueries: true,
   });
+  const [createAction] = useMutation(CREATE_ACTION);
   const { data } = useQuery(CURRENT_ACTION);
   const displayCurrentActivity = () => {
     if (currentlySelected.category !== "") {
@@ -36,15 +38,14 @@ const CurrentDisplay: FC<IProps> = ({
     }
   };
   const startCurrentAction = (startFunc: any, getTime: any) => {
-    console.log("Zwoosh");
     if (data) {
       updateAction({
         variables: {
           userID: userID,
           minutes: 0,
           timeStarted: Date.now().toString(),
-          category: data.currentUser.currentAction.category,
-          activity: data.currentUser.currentAction.activity,
+          category: currentlySelected.category,
+          activity: currentlySelected.activity,
         },
       });
       startFunc();
@@ -68,8 +69,59 @@ const CurrentDisplay: FC<IProps> = ({
     pauseFunc();
   };
 
+  const finishCurrentAction = (
+    resetFunc: any,
+    currentTime: number,
+    pause: any
+  ) => {
+    console.log(currentTime / 1000);
+    if (currentTime / 1000 < 60) {
+      console.log("triggered");
+      updateAction({
+        variables: {
+          userID: userID,
+          minutes: 0,
+          timeStarted: "",
+          category: data.currentUser.currentAction.category,
+          activity: data.currentUser.currentAction.activity,
+        },
+      }).then(() => {
+        setSeconds(0);
+        resetFunc();
+        pause();
+      });
+    } else if (data) {
+      createAction({
+        variables: {
+          userID: userID,
+          timeStarted: data.currentUser.currentAction.timeStarted,
+          timeEnded: Date.now().toString(),
+          minutes: Math.trunc(currentTime / 1000 / 60),
+          categoryName: data.currentUser.currentAction.category,
+          activityTitle: data.currentUser.currentAction.activity,
+        },
+      })
+        .then(() => {
+          console.log("updating");
+          updateAction({
+            variables: {
+              userID: userID,
+              minutes: 0,
+              timeStarted: "",
+              category: data.currentUser.currentAction.category,
+              activity: data.currentUser.currentAction.activity,
+            },
+          });
+        })
+        .then(() => {
+          setSeconds(0);
+          resetFunc();
+          pause();
+        });
+    }
+  };
+
   const setInitialTime = (setTime: any) => {
-    console.log("called");
     setTime(seconds * 1000);
     return null;
   };
@@ -92,7 +144,7 @@ const CurrentDisplay: FC<IProps> = ({
         }}
         formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
       >
-        {({ start, pause, stop, getTimerState, getTime, setTime }: any) => (
+        {({ start, pause, reset, getTime, setTime }: any) => (
           <>
             <Grid container>
               <Grid item xs={12}>
@@ -135,7 +187,9 @@ const CurrentDisplay: FC<IProps> = ({
                       variant="contained"
                       size="large"
                       className={classes.finishButton}
-                      onClick={() => console.log(Math.trunc(getTime()))}
+                      onClick={() =>
+                        finishCurrentAction(reset, Math.trunc(getTime()), pause)
+                      }
                     >
                       Finish
                     </Button>
