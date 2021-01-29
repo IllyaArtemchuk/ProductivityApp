@@ -15,11 +15,14 @@ interface IActionTableRowProps {
   activityColor: string;
 }
 export const ActionTableRowStyles = makeStyles({
-  row: {},
   deletion: {
     "&:hover": {
       color: AccentColors.Red,
     },
+    marginTop: -5,
+    marginBottom: -5,
+    marginRight: -11,
+    marginLeft: -10,
   },
   category: {
     color: (props: IActionTableRowProps) => props.categoryColor,

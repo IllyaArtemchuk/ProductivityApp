@@ -33,6 +33,7 @@ const ActionTable: FC<IProps> = ({ userData }) => {
               timeStarted: action.timeStarted,
               timeEnded: action.timeEnded,
               minutes: action.minutes,
+              id: action.id,
             });
           });
         });
@@ -53,7 +54,7 @@ const ActionTable: FC<IProps> = ({ userData }) => {
         {actions.length ? (
           <TableBody>
             {actions.map((action, ind) => (
-              <ActionTableRow key={ind} action={action} />
+              <ActionTableRow key={ind} action={action} userID={userData.id} />
             ))}
           </TableBody>
         ) : (

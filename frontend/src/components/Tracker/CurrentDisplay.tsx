@@ -1,4 +1,5 @@
-import { useState, FC, Dispatch, SetStateAction } from "react";
+import { useState, useEffect, FC, Dispatch, SetStateAction } from "react";
+import { Prompt } from "react-router-dom";
 import { Box, Typography, Grid, Button } from "@material-ui/core";
 import { useMutation, useQuery } from "@apollo/client";
 import Timer from "react-compound-timer";
@@ -24,6 +25,13 @@ const CurrentDisplay: FC<IProps> = ({
 }) => {
   const classes = CurrentDisplayStyles();
   const [isRunning, setRunning] = useState(false);
+  useEffect(() => {
+    if (isRunning) {
+      window.onbeforeunload = () => true;
+    } else {
+      window.onbeforeunload = null;
+    }
+  }, [isRunning]);
   const [updateAction] = useMutation(UPDATE_CURRENT_ACTION, {
     refetchQueries: [{ query: CURRENT_ACTION }],
     awaitRefetchQueries: true,
@@ -76,7 +84,6 @@ const CurrentDisplay: FC<IProps> = ({
   ) => {
     console.log(currentTime / 1000);
     if (currentTime / 1000 < 60) {
-      console.log("triggered");
       updateAction({
         variables: {
           userID: userID,
@@ -102,7 +109,6 @@ const CurrentDisplay: FC<IProps> = ({
         },
       })
         .then(() => {
-          console.log("updating");
           updateAction({
             variables: {
               userID: userID,
@@ -128,6 +134,10 @@ const CurrentDisplay: FC<IProps> = ({
 
   return (
     <Box className={classes.box} boxShadow={3}>
+      <Prompt
+        when={isRunning}
+        message="If you dont pause the timer, you will lose progress on page leave."
+      />
       <Timer
         startImmediately={false}
         initialTime={seconds * 1000}
