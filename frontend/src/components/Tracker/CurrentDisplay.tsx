@@ -9,6 +9,7 @@ import { ICurrentlySelected } from "./Interfaces";
 import { UPDATE_CURRENT_ACTION } from "../../graphql/updateCurrentAction";
 import { CURRENT_ACTION } from "../../graphql/getCurrentAction";
 import { CREATE_ACTION } from "../../graphql/createNewAction";
+import KeyPressHandler from "./KeyPressHandler";
 
 interface IProps {
   currentlySelected: ICurrentlySelected;
@@ -45,7 +46,8 @@ const CurrentDisplay: FC<IProps> = ({
       return "Select An Activity";
     }
   };
-  const startCurrentAction = (startFunc: any, getTime: any) => {
+
+  const startCurrentAction = (startFunc: any) => {
     if (data) {
       updateAction({
         variables: {
@@ -82,7 +84,6 @@ const CurrentDisplay: FC<IProps> = ({
     currentTime: number,
     pause: any
   ) => {
-    console.log(currentTime / 1000);
     if (currentTime / 1000 < 60) {
       updateAction({
         variables: {
@@ -138,6 +139,7 @@ const CurrentDisplay: FC<IProps> = ({
         when={isRunning}
         message="If you dont pause the timer, you will lose progress on page leave."
       />
+
       <Timer
         startImmediately={false}
         initialTime={seconds * 1000}
@@ -158,6 +160,15 @@ const CurrentDisplay: FC<IProps> = ({
           <>
             <Grid container>
               <Grid item xs={12}>
+                <KeyPressHandler
+                  startCurrentAction={() => startCurrentAction(start)}
+                  pauseCurrentAction={() =>
+                    updateCurrentAction(pause, Math.trunc(getTime()))
+                  }
+                  seconds={seconds}
+                  isRunning={isRunning}
+                  start={start}
+                />
                 <Typography variant="h6" className={classes.currentActivity}>
                   {displayCurrentActivity()}
                 </Typography>
@@ -177,7 +188,7 @@ const CurrentDisplay: FC<IProps> = ({
                 {seconds === 0 && !isRunning ? (
                   <StartButton
                     currentlySelected={currentlySelected}
-                    onClick={() => startCurrentAction(start, getTime)}
+                    onClick={() => startCurrentAction(start)}
                   />
                 ) : (
                   <>

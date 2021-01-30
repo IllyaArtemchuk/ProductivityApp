@@ -73,7 +73,7 @@ const ActionTableRow: FC<IProps> = ({ action, userID }) => {
         />
       );
     } else {
-      return <span style={{ marginLeft: 9 }}></span>;
+      return <div style={{ marginLeft: 10, minWidth: 15 }}></div>;
     }
   };
 
@@ -88,8 +88,8 @@ const ActionTableRow: FC<IProps> = ({ action, userID }) => {
       </TableCell>
       <TableCell align="left">{action.minutes} m</TableCell>
       <TableCell align="right">
-        {dayjs(parseInt(action.timeStarted) * 1000).format("h:mA")} -{" "}
-        {dayjs(parseInt(action.timeEnded) * 1000).format("h:mA")}
+        {dayjs(parseInt(action.timeStarted)).format("h:mmA")} -{" "}
+        {dayjs(parseInt(action.timeEnded)).format("h:mmA")}
       </TableCell>
       <TableCell align="right">
         {hovered ? renderDeleteButton() : renderNull()}

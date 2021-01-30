@@ -26,6 +26,7 @@ const StartButton: FC<IProps> = ({ currentlySelected, onClick }) => {
       className={classes.timerControl}
       disabled={isDisabled()}
       onClick={onClick}
+      onKeyPress={onClick}
     >
       <PlayArrowIcon className={classes.controlButton} />
     </IconButton>

@@ -22,7 +22,7 @@ export const ActionTableRowStyles = makeStyles({
     marginTop: -5,
     marginBottom: -5,
     marginRight: -11,
-    marginLeft: -10,
+    marginLeft: 10,
   },
   category: {
     color: (props: IActionTableRowProps) => props.categoryColor,
