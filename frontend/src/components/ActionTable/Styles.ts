@@ -1,5 +1,11 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { PrimaryColors, AccentColors, FontWeight } from "../../styles/styles";
+import {
+  PrimaryColors,
+  AccentColors,
+  NeutralColors,
+  FontWeight,
+  FontSize,
+} from "../../styles/styles";
 
 export const ActionTableStyles = makeStyles({
   TableContainer: {
@@ -31,5 +37,19 @@ export const ActionTableRowStyles = makeStyles({
   activity: {
     color: (props: IActionTableRowProps) => props.activityColor,
     fontWeight: FontWeight.heavy,
+  },
+});
+
+export const DaySelectorStyles = makeStyles({
+  currentDay: {
+    fontSize: 24,
+    color: PrimaryColors.Light,
+  },
+  container: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    marginTop: 20,
   },
 });

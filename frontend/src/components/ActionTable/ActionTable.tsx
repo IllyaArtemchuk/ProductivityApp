@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC, Dispatch, SetStateAction } from "react";
 import {
   Table,
   TableContainer,
@@ -14,36 +14,12 @@ import { IAction } from "./Interfaces";
 
 interface IProps {
   userData: User;
+  actions: IAction[];
+  setActions: Dispatch<SetStateAction<IAction[]>>;
 }
 
-const ActionTable: FC<IProps> = ({ userData }) => {
+const ActionTable: FC<IProps> = ({ userData, actions, setActions }) => {
   const classes = ActionTableStyles();
-  const [actions, setActions] = useState<IAction[]>([]);
-  useEffect(() => {
-    if (userData) {
-      let actionsArray: IAction[] = [];
-      userData.categories.forEach((cat) => {
-        cat.activities.forEach((act) => {
-          act.actions.forEach((action) => {
-            actionsArray.push({
-              category: cat.category_name,
-              categoryColor: cat.color,
-              activity: act.title,
-              activityColor: act.color,
-              timeStarted: action.timeStarted,
-              timeEnded: action.timeEnded,
-              minutes: action.minutes,
-              id: action.id,
-            });
-          });
-        });
-      });
-      actionsArray.sort(
-        (a, b) => parseInt(b.timeEnded) - parseInt(a.timeEnded)
-      );
-      setActions(actionsArray);
-    }
-  }, [userData]);
   return (
     <TableContainer
       component={Paper}
@@ -54,7 +30,13 @@ const ActionTable: FC<IProps> = ({ userData }) => {
         {actions.length ? (
           <TableBody>
             {actions.map((action, ind) => (
-              <ActionTableRow key={ind} action={action} userID={userData.id} />
+              <ActionTableRow
+                key={ind}
+                action={action}
+                userID={userData.id}
+                actions={actions}
+                setActions={setActions}
+              />
             ))}
           </TableBody>
         ) : (

@@ -11,19 +11,22 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { IAction } from "./Interfaces";
 import { ActionTableRowStyles } from "./Styles";
 import { DELETE_ACTION } from "../../graphql/deleteAction";
-import { CURRENT_USER } from "../../graphql/getCurrentUser";
 
 interface IProps {
   action: IAction;
   userID: string;
+  actions: IAction[];
+  setActions: React.Dispatch<React.SetStateAction<IAction[]>>;
 }
 
-const ActionTableRow: FC<IProps> = ({ action, userID }) => {
+const ActionTableRow: FC<IProps> = ({
+  action,
+  userID,
+  actions,
+  setActions,
+}) => {
   const [hovered, setHovered] = useState(false);
-  const [handleDelete, { loading }] = useMutation(DELETE_ACTION, {
-    refetchQueries: [{ query: CURRENT_USER }],
-    awaitRefetchQueries: true,
-  });
+  const [handleDelete, { loading }] = useMutation(DELETE_ACTION);
   const classes = ActionTableRowStyles({
     categoryColor: action.categoryColor,
     activityColor: action.activityColor,
@@ -37,6 +40,8 @@ const ActionTableRow: FC<IProps> = ({ action, userID }) => {
         categoryName: action.category,
         activityTitle: action.activity,
       },
+    }).then(() => {
+      setActions(actions.filter((item) => item.id !== action.id));
     });
   };
 

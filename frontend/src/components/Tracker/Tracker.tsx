@@ -9,7 +9,8 @@ import { Category, Activity } from "../../interfaces/UserTypes";
 import { ICurrentlySelected, ActivityRef } from "./Interfaces";
 import CategoryModal from "../Modals/CategoryModal/CategoryModal";
 import ActivityModal from "../Modals/ActivityModal/ActivityModal";
-import ActionTable from "../ActionTable/ActionTable";
+import ActionTableContainer from "../ActionTable/ActionTableContainer";
+import { IAction } from "../ActionTable/Interfaces";
 
 const defaultCurrentlySelected: ICurrentlySelected = {
   category: "",
@@ -21,6 +22,7 @@ const defaultCurrentlySelected: ICurrentlySelected = {
 
 const Tracker: FC = () => {
   const { data, loading, error } = useQuery(CURRENT_USER);
+  const [actions, setActions] = useState<IAction[]>([]);
   const [
     currentlySelected,
     setCurrentlySelected,
@@ -154,8 +156,12 @@ const Tracker: FC = () => {
         </div>
       </Grid>
       <Grid item xs={undefined} md={2} />
-      <Grid item md={8} xs={12}>
-        <ActionTable userData={data ? data.currentUser : null} />
+      <Grid item md={8} xs={12} className={classes.ActionTable}>
+        <ActionTableContainer
+          userData={data ? data.currentUser : null}
+          actions={actions}
+          setActions={setActions}
+        />
       </Grid>
     </Grid>
   );

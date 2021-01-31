@@ -12,6 +12,9 @@ export const MainLayoutStyles = makeStyles({
   ActivitySelector: {
     marginTop: 30,
   },
+  ActionTable: {
+    marginTop: 30,
+  },
 });
 
 export const CurrentDisplayStyles = makeStyles({
