@@ -4,14 +4,13 @@ import {
   AccentColors,
   NeutralColors,
   FontWeight,
-  FontSize,
 } from "../../styles/styles";
 
 export const ActionTableStyles = makeStyles({
   tableContainer: {
     marginTop: 50,
-    maxWidth: 600,
-    minWidth: 300,
+    maxWidth: 900,
+    minWidth: 400,
     margin: "auto",
   },
   blankTable: {

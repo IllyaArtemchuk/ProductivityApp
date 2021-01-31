@@ -94,7 +94,7 @@ const ActionTableRow: FC<IProps> = ({
         <span className={classes.slash}>/</span>
         <span className={classes.activity}>{action.activity}</span>
       </TableCell>
-      <TableCell align="left">{action.minutes} m</TableCell>
+      <TableCell align="right">{action.minutes} m</TableCell>
       <TableCell align="right">
         {dayjs(parseInt(action.timeStarted)).format("h:mmA")} -{" "}
         {dayjs(parseInt(action.timeEnded)).format("h:mmA")}
