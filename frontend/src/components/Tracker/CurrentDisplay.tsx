@@ -10,12 +10,16 @@ import { UPDATE_CURRENT_ACTION } from "../../graphql/updateCurrentAction";
 import { CURRENT_ACTION } from "../../graphql/getCurrentAction";
 import { CREATE_ACTION } from "../../graphql/createNewAction";
 import KeyPressHandler from "./KeyPressHandler";
+import { IAction } from "../ActionTable/Interfaces";
+import dayjs from "dayjs";
 
 interface IProps {
   currentlySelected: ICurrentlySelected;
   seconds: number;
   setSeconds: Dispatch<SetStateAction<number>>;
   userID: string;
+  setActions: React.Dispatch<React.SetStateAction<IAction[]>>;
+  actions: IAction[];
 }
 
 const CurrentDisplay: FC<IProps> = ({
@@ -23,6 +27,8 @@ const CurrentDisplay: FC<IProps> = ({
   seconds,
   setSeconds,
   userID,
+  actions,
+  setActions,
 }) => {
   const classes = CurrentDisplayStyles();
   const [isRunning, setRunning] = useState(false);
@@ -99,6 +105,21 @@ const CurrentDisplay: FC<IProps> = ({
         pause();
       });
     } else if (data) {
+      let EndTime = Date.now().toString();
+      setActions([
+        {
+          category: currentlySelected.category,
+          categoryColor: currentlySelected.categoryColor,
+          activity: currentlySelected.activity,
+          activityColor: currentlySelected.activityColor,
+          minutes: Math.trunc(currentTime / 1000 / 60),
+          timeStarted: data.currentUser.currentAction.timeStarted,
+          timeEnded: EndTime,
+          timeQuery: dayjs(parseInt(EndTime)),
+          id: "1",
+        },
+        ...actions,
+      ]);
       createAction({
         variables: {
           userID: userID,

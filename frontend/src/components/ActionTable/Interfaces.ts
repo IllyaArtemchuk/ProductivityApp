@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export interface IAction {
   id: string;
   category: string;
@@ -6,5 +8,6 @@ export interface IAction {
   activityColor: string;
   timeStarted: string;
   timeEnded: string;
+  timeQuery: Dayjs;
   minutes: number;
 }

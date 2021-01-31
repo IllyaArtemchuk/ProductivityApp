@@ -8,11 +8,14 @@ import {
 } from "../../styles/styles";
 
 export const ActionTableStyles = makeStyles({
-  TableContainer: {
+  tableContainer: {
     marginTop: 50,
     maxWidth: 600,
     minWidth: 300,
     margin: "auto",
+  },
+  blankTable: {
+    color: NeutralColors.Light,
   },
 });
 
@@ -38,6 +41,9 @@ export const ActionTableRowStyles = makeStyles({
     color: (props: IActionTableRowProps) => props.activityColor,
     fontWeight: FontWeight.heavy,
   },
+  slash: {
+    color: NeutralColors.Light,
+  },
 });
 
 export const DaySelectorStyles = makeStyles({
@@ -51,5 +57,6 @@ export const DaySelectorStyles = makeStyles({
     justifyContent: "center",
     flexDirection: "row",
     marginTop: 20,
+    marginBottom: -40,
   },
 });

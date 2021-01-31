@@ -55,16 +55,18 @@ const ActionTableRow: FC<IProps> = ({
         />
       );
     } else {
-      return (
-        <IconButton
-          aria-label="delete"
-          className={classes.deletion}
-          size="small"
-          onClick={() => onDelete()}
-        >
-          <HighlightOffIcon fontSize="small" />
-        </IconButton>
-      );
+      if (action.id !== "1") {
+        return (
+          <IconButton
+            aria-label="delete"
+            className={classes.deletion}
+            size="small"
+            onClick={() => onDelete()}
+          >
+            <HighlightOffIcon fontSize="small" />
+          </IconButton>
+        );
+      }
     }
   };
 
@@ -88,7 +90,8 @@ const ActionTableRow: FC<IProps> = ({
       onMouseLeave={() => setHovered(false)}
     >
       <TableCell align="left">
-        <span className={classes.category}>{action.category}</span>/
+        <span className={classes.category}>{action.category}</span>
+        <span className={classes.slash}>/</span>
         <span className={classes.activity}>{action.activity}</span>
       </TableCell>
       <TableCell align="left">{action.minutes} m</TableCell>

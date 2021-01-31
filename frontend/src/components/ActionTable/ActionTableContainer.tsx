@@ -1,5 +1,5 @@
-import { Typography } from "@material-ui/core";
-import { useEffect, FC, Dispatch, SetStateAction } from "react";
+import dayjs from "dayjs";
+import { useEffect, useState, FC, Dispatch, SetStateAction } from "react";
 import { User } from "../../interfaces/UserTypes";
 import ActionTable from "./ActionTable";
 import DaySelector from "./DaySelector";
@@ -16,6 +16,8 @@ const ActionTableContainer: FC<IProps> = ({
   setActions,
   userData,
 }) => {
+  const [daySelected, setDaySelected] = useState(0);
+  const [visibleActions, setVisibleActions] = useState<IAction[]>([]);
   useEffect(() => {
     if (userData) {
       let actionsArray: IAction[] = [];
@@ -30,6 +32,7 @@ const ActionTableContainer: FC<IProps> = ({
               timeStarted: action.timeStarted,
               timeEnded: action.timeEnded,
               minutes: action.minutes,
+              timeQuery: dayjs(parseInt(action.timeEnded)),
               id: action.id,
             });
           });
@@ -42,14 +45,21 @@ const ActionTableContainer: FC<IProps> = ({
     }
   }, [userData, setActions]);
 
+  useEffect(() => {
+    setVisibleActions(
+      actions.filter((action) =>
+        action.timeQuery.isSame(dayjs().subtract(daySelected, "day"), "day")
+      )
+    );
+  }, [daySelected, actions]);
   return (
     <div>
+      <DaySelector daySelected={daySelected} setDaySelected={setDaySelected} />
       <ActionTable
         userData={userData}
-        actions={actions}
+        actions={visibleActions}
         setActions={setActions}
       />
-      <DaySelector />
     </div>
   );
 };

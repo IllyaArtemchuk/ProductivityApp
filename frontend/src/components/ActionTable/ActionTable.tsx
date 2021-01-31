@@ -24,7 +24,7 @@ const ActionTable: FC<IProps> = ({ userData, actions, setActions }) => {
     <TableContainer
       component={Paper}
       elevation={2}
-      className={classes.TableContainer}
+      className={classes.tableContainer}
     >
       <Table>
         {actions.length ? (
@@ -42,7 +42,9 @@ const ActionTable: FC<IProps> = ({ userData, actions, setActions }) => {
         ) : (
           <TableBody>
             <TableRow>
-              <TableCell align="center">Nothing Completed Today...</TableCell>
+              <TableCell align="center" className={classes.blankTable}>
+                Nothing Completed Today...
+              </TableCell>
             </TableRow>
           </TableBody>
         )}

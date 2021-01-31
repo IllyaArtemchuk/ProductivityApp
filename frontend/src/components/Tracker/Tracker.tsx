@@ -115,6 +115,7 @@ const Tracker: FC = () => {
   }, [currentlySelected.activity, currentlySelected.category, data]);
 
   const classes = MainLayoutStyles();
+  console.log("rerender");
   return (
     <Grid container>
       <Grid item xs={undefined} md={2} />
@@ -138,6 +139,8 @@ const Tracker: FC = () => {
           userID={data ? data.currentUser.id : null}
           currentlySelected={currentlySelected}
           seconds={seconds}
+          actions={actions}
+          setActions={setActions}
           setSeconds={setSeconds}
         />
       </Grid>
