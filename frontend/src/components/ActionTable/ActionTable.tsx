@@ -6,6 +6,7 @@ import {
   TableRow,
   TableCell,
   Paper,
+  CircularProgress,
 } from "@material-ui/core";
 import { ActionTableStyles } from "./Styles";
 import { User } from "../../interfaces/UserTypes";
@@ -19,6 +20,33 @@ interface IProps {
 }
 
 const ActionTable: FC<IProps> = ({ userData, actions, setActions }) => {
+  const renderTableRows = () => {
+    if (userData) {
+      return (
+        <TableBody>
+          {actions.map((action, ind) => (
+            <ActionTableRow
+              key={ind}
+              action={action}
+              userID={userData.id}
+              actions={actions}
+              setActions={setActions}
+            />
+          ))}
+        </TableBody>
+      );
+    } else {
+      return (
+        <TableBody>
+          <TableRow>
+            <TableCell align="center" className={classes.blankTable}>
+              <CircularProgress />
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      );
+    }
+  };
   const classes = ActionTableStyles();
   return (
     <TableContainer
@@ -28,17 +56,7 @@ const ActionTable: FC<IProps> = ({ userData, actions, setActions }) => {
     >
       <Table>
         {actions.length ? (
-          <TableBody>
-            {actions.map((action, ind) => (
-              <ActionTableRow
-                key={ind}
-                action={action}
-                userID={userData.id}
-                actions={actions}
-                setActions={setActions}
-              />
-            ))}
-          </TableBody>
+          renderTableRows()
         ) : (
           <TableBody>
             <TableRow>

@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction, FC } from "react";
 import { Grid } from "@material-ui/core";
 import { useQuery } from "@apollo/client";
 import CurrentDisplay from "./CurrentDisplay";
@@ -20,9 +20,13 @@ const defaultCurrentlySelected: ICurrentlySelected = {
   activityColor: "",
 };
 
-const Tracker: FC = () => {
+interface IProps {
+  actions: IAction[];
+  setActions: Dispatch<SetStateAction<IAction[]>>;
+}
+
+const Tracker: FC<IProps> = ({ actions, setActions }) => {
   const { data, loading, error } = useQuery(CURRENT_USER);
-  const [actions, setActions] = useState<IAction[]>([]);
   const [
     currentlySelected,
     setCurrentlySelected,

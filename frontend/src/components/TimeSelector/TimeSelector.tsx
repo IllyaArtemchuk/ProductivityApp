@@ -45,9 +45,9 @@ const TimeSelector: FC<IProps> = ({
         .format("MMM DD");
     }
     return `${dayjs()
-      .subtract(timeSelected, offsetArray[offsetType])
+      .subtract(timeSelected + 1, offsetArray[offsetType])
       .format("MMM DD")}-${dayjs()
-      .subtract(timeSelected - 1, offsetArray[offsetType])
+      .subtract(timeSelected, offsetArray[offsetType])
       .format("MMM DD")}`;
   };
 
@@ -63,6 +63,7 @@ const TimeSelector: FC<IProps> = ({
       </IconButton>
       <span className={classes.CurrentTime}>{renderCurrentTime()}</span>
       <IconButton
+        className={classes.IconButton}
         disabled={timeSelected === 0}
         onClick={() =>
           setTimeSelected((prevTimeSelected) => prevTimeSelected - 1)

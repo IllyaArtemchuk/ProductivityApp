@@ -5,13 +5,17 @@ import { offsetEnum } from "./Interfaces";
 export const MainLayoutStyles = makeStyles({
   Selector: {},
   Container: {
-    marginTop: 80,
+    marginTop: 50,
+  },
+  Graph: {
+    marginTop: 50,
   },
 });
 
 export const SelectorStyles = makeStyles({
   Select: {
     fontSize: FontSize.size36,
+    marginLeft: 20,
   },
   Container: {
     display: "flex",
@@ -34,8 +38,10 @@ export const CustomTimeSelectorStyles = makeStyles({
       props.offsetType === 0 ? 0 : 235,
     display: "inline-block",
   },
-  Container: {},
+  Container: {
+    marginTop: 20,
+  },
   IconButton: {
-    marginBottom: 10,
+    marginBottom: 15,
   },
 });

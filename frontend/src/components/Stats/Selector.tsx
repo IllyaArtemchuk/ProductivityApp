@@ -24,7 +24,7 @@ const Selector: FC<IProps> = ({
   const renderSelection = () => {
     return offsetArray.map((type, ind) => (
       <MenuItem key={ind} value={ind}>
-        {type}
+        {type.charAt(0).toUpperCase() + type.slice(1)}
       </MenuItem>
     ));
   };

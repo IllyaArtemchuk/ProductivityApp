@@ -15,5 +15,5 @@ export const TimeSelectorStyles = makeStyles({
     marginTop: 20,
     marginBottom: -40,
   },
-  IconButtons: {},
+  IconButton: {},
 });
