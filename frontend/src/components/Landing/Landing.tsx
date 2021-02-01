@@ -7,6 +7,9 @@ const Landing: FC = () => {
       <Link to="/tracker">
         <Button>Hello!!!</Button>
       </Link>
+      <Link to="/stats">
+        <Button>Whats up!!</Button>
+      </Link>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { CURRENT_USER } from "./graphql/getCurrentUser";
 import { BrowserRouter, Route } from "react-router-dom";
 import Landing from "./components/Landing/Landing";
 import Tracker from "./components/Tracker/Tracker";
+import StatsContainer from "./components/Stats/StatsContainer";
 
 const App: FC = () => {
   const { data, loading } = useQuery(CURRENT_USER);
@@ -19,6 +20,7 @@ const App: FC = () => {
         <Toolbar />
         <Route exact path="/" component={Landing} />
         <Route exact path="/tracker" component={Tracker} />
+        <Route exact path="/stats" component={StatsContainer} />
       </BrowserRouter>
     </Container>
   );

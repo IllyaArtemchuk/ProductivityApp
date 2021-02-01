@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
 import { useEffect, useState, FC, Dispatch, SetStateAction } from "react";
 import { User } from "../../interfaces/UserTypes";
+import TimeSelector from "../TimeSelector/TimeSelector";
 import ActionTable from "./ActionTable";
-import DaySelector from "./DaySelector";
 import { IAction } from "./Interfaces";
 
 interface IProps {
@@ -54,7 +54,11 @@ const ActionTableContainer: FC<IProps> = ({
   }, [daySelected, actions]);
   return (
     <div>
-      <DaySelector daySelected={daySelected} setDaySelected={setDaySelected} />
+      <TimeSelector
+        timeSelected={daySelected}
+        setTimeSelected={setDaySelected}
+        offsetType={0}
+      />
       <ActionTable
         userData={userData}
         actions={visibleActions}
