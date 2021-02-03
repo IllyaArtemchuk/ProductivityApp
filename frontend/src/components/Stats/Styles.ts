@@ -45,3 +45,7 @@ export const CustomTimeSelectorStyles = makeStyles({
     marginBottom: 15,
   },
 });
+
+export const GraphStyles = makeStyles({
+  LabelStyles: {},
+});

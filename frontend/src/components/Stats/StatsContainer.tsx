@@ -1,6 +1,6 @@
 import { useState, useEffect, FC } from "react";
 import { Grid, CircularProgress } from "@material-ui/core";
-import { offsetEnum, offsetArray } from "./Interfaces";
+import { offsetEnum, offsetArray, GraphData } from "./Interfaces";
 import Selector from "./Selector";
 import Graph from "./Graph";
 import { MainLayoutStyles } from "./Styles";
@@ -17,9 +17,11 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
   const [currentlySelectedActions, setCurrentlySelectedActions] = useState<
     IAction[]
   >([]);
+  const [graphData, setGraphData] = useState<GraphData[]>([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     let newCurrentlySelected: IAction[] = [];
+    let graphFriendlyData: any = {};
     for (let i = 0; i < actions.length; i++) {
       if (
         actions[i].timeQuery.isBefore(
@@ -33,11 +35,24 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
         ) {
           break;
         }
+        if (!graphFriendlyData[actions[i].category]) {
+          graphFriendlyData[actions[i].category] = {
+            category: actions[i].category,
+            activity: actions[i].activity,
+            activityColor: actions[i].activityColor,
+            categoryColor: actions[i].categoryColor,
+            y: actions[i].minutes,
+          };
+        } else {
+          graphFriendlyData[actions[i].category].y += actions[i].minutes;
+        }
         newCurrentlySelected.push(actions[i]);
       }
     }
+    setGraphData(Object.values(graphFriendlyData));
     setCurrentlySelectedActions(newCurrentlySelected);
   }, [actions, offsetType, timeOffset]);
+
   const classes = MainLayoutStyles();
   return (
     <Grid container className={classes.Container}>
@@ -54,7 +69,7 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
         {loading ? (
           <CircularProgress size={100} />
         ) : (
-          <Graph displayedActions={currentlySelectedActions} />
+          <Graph displayedActions={graphData} />
         )}
       </Grid>
     </Grid>
