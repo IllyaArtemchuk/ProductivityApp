@@ -18,6 +18,9 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
   const [currentlySelectedActions, setCurrentlySelectedActions] = useState<
     IAction[]
   >([]);
+  const [currentlySelectedCategory, setCurrentlySelectedCategory] = useState(
+    ""
+  );
   const [graphData, setGraphData] = useState<GraphData[]>([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -102,7 +105,11 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
         {loading ? (
           <CircularProgress size={100} />
         ) : (
-          <Graph displayedActions={graphData} />
+          <Graph
+            graphData={graphData}
+            currentlySelectedCategory={currentlySelectedCategory}
+            setCurrentlySelectedCategory={setCurrentlySelectedCategory}
+          />
         )}
       </Grid>
     </Grid>

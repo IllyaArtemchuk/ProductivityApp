@@ -30,7 +30,7 @@ const Header: FC<Props> = ({ currentUser, currentUserLoading }) => {
       <Container maxWidth="xl">
         <Toolbar>
           <Typography variant="h4" className={classes.title}>
-            Productivity App
+            Timeocity
           </Typography>
           {currentUserLoading ? (
             <CircularProgress color="secondary" />

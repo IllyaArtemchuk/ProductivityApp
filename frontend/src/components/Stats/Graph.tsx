@@ -1,99 +1,223 @@
-import React, { useState, FC } from "react";
-import { GraphData } from "./Interfaces";
+import { FC, Dispatch, SetStateAction } from "react";
+import { GraphData, IActivities } from "./Interfaces";
 import { VictoryPie, VictoryTooltip } from "victory";
-import { FontSize, PrimaryColors } from "../../styles/styles";
+import { FontSize, NeutralColors, PrimaryColors } from "../../styles/styles";
 
 interface IProps {
-  displayedActions: GraphData[];
+  graphData: GraphData[];
+  currentlySelectedCategory: string;
+  setCurrentlySelectedCategory: Dispatch<SetStateAction<string>>;
 }
 
-const Graph: FC<IProps> = ({ displayedActions }) => {
-  return (
-    <VictoryPie
-      data={displayedActions}
-      innerRadius={100}
-      padAngle={2}
-      width={600}
-      labelComponent={
-        <VictoryTooltip
-          pointerLength={0}
-          style={{
-            backgroundColor: "white",
-            fontFamily: "Roboto",
-            fill: ({ datum }: any) => datum.categoryColor,
-            fontSize: FontSize.size16,
-          }}
-          flyoutStyle={{
-            backgroundColor: "white",
-            stroke: ({ datum }: any) => datum.categoryColor,
-            fill: "white",
-            strokeWidth: 1,
-          }}
-        />
-      }
-      style={{
-        data: {
-          fill: ({ datum }) => datum.categoryColor,
-        },
-        labels: {
-          fontFamily: "Roboto",
-        },
-      }}
-      x="category"
-      y={(d: GraphData) => d.minutes}
-      animate={{
-        onLoad: {
-          duration: 1000,
-        },
-      }}
-      events={[
+const Graph: FC<IProps> = ({
+  graphData,
+  currentlySelectedCategory,
+  setCurrentlySelectedCategory,
+}) => {
+  const findCategoryData = (): IActivities[] => {
+    if (graphData[0] && graphData[0].category === "Nothing here...") {
+      return [
         {
-          target: "data",
-          eventHandlers: {
-            onMouseOver: () => {
-              return [
-                {
-                  target: "data",
-                  mutation: (props) => {
-                    return {
-                      style: Object.assign({}, props.style, {
-                        opacity: 0.7,
-                      }),
-                    };
-                  },
-                },
-                {
-                  target: "labels",
-                  mutation: () => ({ active: true }),
-                },
-              ];
-            },
-            onMouseOut: () => {
-              return [
-                {
-                  target: "data",
-                  mutation: () => {
-                    return null;
-                  },
-                },
-                {
-                  target: "labels",
-                  mutation: () => ({ active: undefined }),
-                },
-              ];
-            },
-            onFocus: () => ({
-              target: "labels",
-              mutation: () => ({ active: true }),
-            }),
-            onBlur: () => ({
-              target: "labels",
-              mutation: () => ({ active: undefined }),
-            }),
-          },
+          minutes: 1,
+          activity: "Nothing here...",
+          activityColor: NeutralColors.Light,
         },
-      ]}
-    />
+      ];
+    }
+    const categoryData = graphData.find(
+      (item) => item.category === currentlySelectedCategory
+    );
+    if (categoryData === undefined) {
+      return [
+        {
+          minutes: 1,
+          activity: "Select a category",
+          activityColor: NeutralColors.Lightest,
+        },
+      ];
+    } else {
+      return Object.values(categoryData.activities);
+    }
+  };
+  return (
+    <div>
+      <VictoryPie
+        data={graphData}
+        innerRadius={100}
+        padAngle={2}
+        width={800}
+        labelComponent={
+          <VictoryTooltip
+            pointerLength={0}
+            style={{
+              backgroundColor: "white",
+              fontFamily: "Roboto",
+              fill: ({ datum }: any) => datum.categoryColor,
+              fontSize: FontSize.size16,
+            }}
+            flyoutStyle={{
+              backgroundColor: "white",
+              stroke: ({ datum }: any) => datum.categoryColor,
+              fill: "white",
+              strokeWidth: 1,
+            }}
+          />
+        }
+        style={{
+          data: {
+            fill: ({ datum }) => datum.categoryColor,
+            stroke: ({ datum }) =>
+              datum.category === currentlySelectedCategory
+                ? PrimaryColors.Dark
+                : datum.categoryColor,
+            strokeWidth: ({ datum }) =>
+              datum.category === currentlySelectedCategory ? 3 : 0,
+          },
+          labels: {
+            fontFamily: "Roboto",
+          },
+        }}
+        x={(d: GraphData) => `${d.category}: ${d.minutes} min`}
+        y={(d: GraphData) => d.minutes}
+        animate={{
+          duration: 500,
+        }}
+        events={[
+          {
+            target: "data",
+            eventHandlers: {
+              onMouseOver: () => {
+                return [
+                  {
+                    target: "data",
+                    mutation: (props) => {
+                      return {
+                        style: Object.assign({}, props.style, {
+                          opacity: 0.7,
+                        }),
+                      };
+                    },
+                  },
+                  {
+                    target: "labels",
+                    mutation: () => ({ active: true }),
+                  },
+                ];
+              },
+              onMouseOut: () => {
+                return [
+                  {
+                    target: "data",
+                    mutation: () => {
+                      return null;
+                    },
+                  },
+                  {
+                    target: "labels",
+                    mutation: () => ({ active: undefined }),
+                  },
+                ];
+              },
+              onFocus: () => ({
+                target: "labels",
+                mutation: () => ({ active: true }),
+              }),
+              onBlur: () => ({
+                target: "labels",
+                mutation: () => ({ active: undefined }),
+              }),
+              //@ts-ignore
+              onClick: (event: any, data: any) => {
+                setCurrentlySelectedCategory(data.datum.category);
+              },
+            },
+          },
+        ]}
+      />
+      <VictoryPie
+        data={findCategoryData()}
+        innerRadius={100}
+        padAngle={2}
+        width={800}
+        labelComponent={
+          <VictoryTooltip
+            pointerLength={0}
+            style={{
+              backgroundColor: "white",
+              fontFamily: "Roboto",
+              fill: ({ datum }: any) => datum.activityColor,
+              fontSize: FontSize.size16,
+            }}
+            flyoutStyle={{
+              backgroundColor: "white",
+              stroke: ({ datum }: any) => datum.activityColor,
+              fill: "white",
+              strokeWidth: 1,
+            }}
+          />
+        }
+        style={{
+          data: {
+            fill: ({ datum }) => datum.activityColor,
+          },
+          labels: {
+            fontFamily: "Roboto",
+          },
+        }}
+        x={(d: IActivities) => `${d.activity}: ${d.minutes} min`}
+        y={(d: IActivities) => d.minutes}
+        animate={{
+          duration: 500,
+        }}
+        events={[
+          {
+            target: "data",
+            eventHandlers: {
+              onMouseOver: () => {
+                return [
+                  {
+                    target: "data",
+                    mutation: (props) => {
+                      return {
+                        style: Object.assign({}, props.style, {
+                          opacity: 0.7,
+                        }),
+                      };
+                    },
+                  },
+                  {
+                    target: "labels",
+                    mutation: () => ({ active: true }),
+                  },
+                ];
+              },
+              onMouseOut: () => {
+                return [
+                  {
+                    target: "data",
+                    mutation: () => {
+                      return null;
+                    },
+                  },
+                  {
+                    target: "labels",
+                    mutation: () => ({ active: undefined }),
+                  },
+                ];
+              },
+              onFocus: () => ({
+                target: "labels",
+                mutation: () => ({ active: true }),
+              }),
+              onBlur: () => ({
+                target: "labels",
+                mutation: () => ({ active: undefined }),
+              }),
+            },
+          },
+        ]}
+      />
+    </div>
   );
 };
 
