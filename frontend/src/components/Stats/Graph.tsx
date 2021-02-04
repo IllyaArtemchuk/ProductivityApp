@@ -1,7 +1,7 @@
-import { useState, FC } from "react";
+import React, { useState, FC } from "react";
 import { GraphData } from "./Interfaces";
-import { VictoryPie } from "victory";
-import { PrimaryColors } from "../../styles/styles";
+import { VictoryPie, VictoryTooltip } from "victory";
+import { FontSize, PrimaryColors } from "../../styles/styles";
 
 interface IProps {
   displayedActions: GraphData[];
@@ -14,12 +14,38 @@ const Graph: FC<IProps> = ({ displayedActions }) => {
       innerRadius={100}
       padAngle={2}
       width={600}
+      labelComponent={
+        <VictoryTooltip
+          pointerLength={0}
+          style={{
+            backgroundColor: "white",
+            fontFamily: "Roboto",
+            fill: ({ datum }: any) => datum.categoryColor,
+            fontSize: FontSize.size16,
+          }}
+          flyoutStyle={{
+            backgroundColor: "white",
+            stroke: ({ datum }: any) => datum.categoryColor,
+            fill: "white",
+            strokeWidth: 1,
+          }}
+        />
+      }
       style={{
         data: {
           fill: ({ datum }) => datum.categoryColor,
         },
+        labels: {
+          fontFamily: "Roboto",
+        },
       }}
       x="category"
+      y={(d: GraphData) => d.minutes}
+      animate={{
+        onLoad: {
+          duration: 1000,
+        },
+      }}
       events={[
         {
           target: "data",
@@ -31,20 +57,14 @@ const Graph: FC<IProps> = ({ displayedActions }) => {
                   mutation: (props) => {
                     return {
                       style: Object.assign({}, props.style, {
-                        fill: PrimaryColors.Base,
+                        opacity: 0.7,
                       }),
                     };
                   },
                 },
                 {
-                  target: "label",
-                  mutation: (props) => {
-                    return {
-                      style: Object.assign({}, props.style, {
-                        fill: PrimaryColors.Light,
-                      }),
-                    };
-                  },
+                  target: "labels",
+                  mutation: () => ({ active: true }),
                 },
               ];
             },
@@ -56,26 +76,20 @@ const Graph: FC<IProps> = ({ displayedActions }) => {
                     return null;
                   },
                 },
-              ];
-            },
-            onClick: () => {
-              return [
-                {
-                  target: "data",
-                  mutation: ({ style }) => {
-                    return style.fill === "#c43a31"
-                      ? null
-                      : { style: { fill: "#c43a31" } };
-                  },
-                },
                 {
                   target: "labels",
-                  mutation: ({ text }) => {
-                    return text === "clicked" ? null : { text: "clicked" };
-                  },
+                  mutation: () => ({ active: undefined }),
                 },
               ];
             },
+            onFocus: () => ({
+              target: "labels",
+              mutation: () => ({ active: true }),
+            }),
+            onBlur: () => ({
+              target: "labels",
+              mutation: () => ({ active: undefined }),
+            }),
           },
         },
       ]}

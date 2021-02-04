@@ -5,12 +5,17 @@ export enum offsetEnum {
   "month",
 }
 
+export interface IActivities {
+  minutes: number;
+  activity: string;
+  activityColor: string;
+}
+
 export interface GraphData {
-  x: string;
   category: string;
-  color: string;
   categoryColor: string;
-  y: number;
+  minutes: number;
+  activities: IActivities;
 }
 
 export const offsetArray: OffsetType[] = ["day", "week", "month"];

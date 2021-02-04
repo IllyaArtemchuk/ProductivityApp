@@ -5,6 +5,7 @@ import Selector from "./Selector";
 import Graph from "./Graph";
 import { MainLayoutStyles } from "./Styles";
 import { IAction } from "../ActionTable/Interfaces";
+import { NeutralColors } from "../../styles/styles";
 import dayjs from "dayjs";
 
 interface IProps {
@@ -38,18 +39,50 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
         if (!graphFriendlyData[actions[i].category]) {
           graphFriendlyData[actions[i].category] = {
             category: actions[i].category,
-            activity: actions[i].activity,
-            activityColor: actions[i].activityColor,
             categoryColor: actions[i].categoryColor,
-            y: actions[i].minutes,
+            minutes: actions[i].minutes,
+            activities: {},
           };
         } else {
-          graphFriendlyData[actions[i].category].y += actions[i].minutes;
+          graphFriendlyData[actions[i].category].minutes += actions[i].minutes;
+        }
+        if (
+          !graphFriendlyData[actions[i].category].activities[
+            actions[i].activity
+          ]
+        ) {
+          graphFriendlyData[actions[i].category].activities[
+            actions[i].activity
+          ] = {
+            minutes: actions[i].minutes,
+            activity: actions[i].activity,
+            activityColor: actions[i].activityColor,
+          };
+        } else {
+          graphFriendlyData[actions[i].category].activities[
+            actions[i].activity
+          ].minutes += actions[i].minutes;
         }
         newCurrentlySelected.push(actions[i]);
       }
     }
-    setGraphData(Object.values(graphFriendlyData));
+    console.log(graphFriendlyData);
+    if (!newCurrentlySelected.length) {
+      setGraphData([
+        {
+          category: "Nothing here...",
+          categoryColor: NeutralColors.Normal,
+          minutes: 1,
+          activities: {
+            minutes: 1,
+            activity: "Nothing here...",
+            activityColor: NeutralColors.Light,
+          },
+        },
+      ]);
+    } else {
+      setGraphData(Object.values(graphFriendlyData));
+    }
     setCurrentlySelectedActions(newCurrentlySelected);
   }, [actions, offsetType, timeOffset]);
 
