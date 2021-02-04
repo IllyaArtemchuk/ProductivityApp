@@ -45,7 +45,7 @@ const Graph: FC<IProps> = ({
         data={graphData}
         innerRadius={100}
         padAngle={2}
-        width={800}
+        width={700}
         labelComponent={
           <VictoryTooltip
             pointerLength={0}
@@ -138,7 +138,7 @@ const Graph: FC<IProps> = ({
         data={findCategoryData()}
         innerRadius={100}
         padAngle={2}
-        width={800}
+        width={700}
         labelComponent={
           <VictoryTooltip
             pointerLength={0}

@@ -5,10 +5,22 @@ import { offsetEnum } from "./Interfaces";
 export const MainLayoutStyles = makeStyles({
   Selector: {},
   Container: {
-    marginTop: 50,
+    marginTop: 30,
   },
   Graph: {
-    marginTop: 50,
+    marginTop: 5,
+    marginLeft: -80,
+    minWidth: 550,
+  },
+  Title: {
+    textAlign: "center",
+    marginBottom: 15,
+  },
+  CardDivider: {
+    marginTop: 100,
+  },
+  Cards: {
+    marginTop: 70,
   },
 });
 
@@ -40,6 +52,8 @@ export const CustomTimeSelectorStyles = makeStyles({
   },
   Container: {
     marginTop: 20,
+    display: "flex",
+    whiteSpace: "nowrap",
   },
   IconButton: {
     marginBottom: 15,
@@ -48,4 +62,12 @@ export const CustomTimeSelectorStyles = makeStyles({
 
 export const GraphStyles = makeStyles({
   LabelStyles: {},
+});
+
+export const StatsCardStyles = makeStyles({
+  container: {
+    minWidth: 400,
+    maxWidth: 600,
+    height: 300,
+  },
 });

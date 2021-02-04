@@ -1,5 +1,5 @@
 import { useState, useEffect, FC } from "react";
-import { Grid, CircularProgress } from "@material-ui/core";
+import { Grid, CircularProgress, Typography } from "@material-ui/core";
 import { offsetEnum, offsetArray, GraphData } from "./Interfaces";
 import Selector from "./Selector";
 import Graph from "./Graph";
@@ -7,6 +7,7 @@ import { MainLayoutStyles } from "./Styles";
 import { IAction } from "../ActionTable/Interfaces";
 import { NeutralColors } from "../../styles/styles";
 import dayjs from "dayjs";
+import StatsCard from "./StatsCard";
 
 interface IProps {
   actions: IAction[];
@@ -22,7 +23,6 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
     ""
   );
   const [graphData, setGraphData] = useState<GraphData[]>([]);
-  const [loading, setLoading] = useState(false);
   useEffect(() => {
     let newCurrentlySelected: IAction[] = [];
     let graphFriendlyData: any = {};
@@ -92,25 +92,32 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
   const classes = MainLayoutStyles();
   return (
     <Grid container className={classes.Container}>
+      <Grid item xs={12}>
+        <Typography variant="h2" className={classes.Title}>
+          Your Stats
+        </Typography>
+      </Grid>
       <Grid item xs={12} className={classes.Selector}>
         <Selector
           timeOffset={timeOffset}
           setTimeOffset={setTimeOffset}
           offsetType={offsetType}
           setOffsetType={setOffsetType}
+          setCurrentlySelectedCategory={setCurrentlySelectedCategory}
         />
       </Grid>
-      <Grid item xs={2} />
-      <Grid item xs={10} className={classes.Graph}>
-        {loading ? (
-          <CircularProgress size={100} />
-        ) : (
-          <Graph
-            graphData={graphData}
-            currentlySelectedCategory={currentlySelectedCategory}
-            setCurrentlySelectedCategory={setCurrentlySelectedCategory}
-          />
-        )}
+      <Grid item xs={8} className={classes.Graph}>
+        <Graph
+          graphData={graphData}
+          currentlySelectedCategory={currentlySelectedCategory}
+          setCurrentlySelectedCategory={setCurrentlySelectedCategory}
+        />
+      </Grid>
+      <Grid item xs={4} className={classes.Cards}>
+        <StatsCard />
+        <div className={classes.CardDivider}>
+          <StatsCard />
+        </div>
       </Grid>
     </Grid>
   );

@@ -1,5 +1,5 @@
-import { FC, Dispatch, SetStateAction } from "react";
-import { Select, MenuItem } from "@material-ui/core";
+import { useEffect, FC, Dispatch, SetStateAction } from "react";
+import { Select, MenuItem, Typography } from "@material-ui/core";
 import { offsetEnum, offsetArray } from "./Interfaces";
 import { CustomTimeSelectorStyles, SelectorStyles } from "./Styles";
 import TimeSelector from "../TimeSelector/TimeSelector";
@@ -9,6 +9,7 @@ interface IProps {
   setTimeOffset: Dispatch<SetStateAction<number>>;
   offsetType: offsetEnum;
   setOffsetType: Dispatch<SetStateAction<offsetEnum>>;
+  setCurrentlySelectedCategory: Dispatch<SetStateAction<string>>;
 }
 
 const Selector: FC<IProps> = ({
@@ -16,7 +17,14 @@ const Selector: FC<IProps> = ({
   setTimeOffset,
   offsetType,
   setOffsetType,
+  setCurrentlySelectedCategory,
 }) => {
+  useEffect(() => {
+    setCurrentlySelectedCategory("");
+  }, [timeOffset, offsetType, setCurrentlySelectedCategory]);
+  useEffect(() => {
+    setTimeOffset(0);
+  }, [offsetType, setTimeOffset]);
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setOffsetType(event.target.value as number);
   };
