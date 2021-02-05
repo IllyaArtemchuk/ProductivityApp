@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { FontSize, PrimaryColors } from "../../styles/styles";
+import { AccentColors, FontSize, PrimaryColors } from "../../styles/styles";
 import { offsetEnum } from "./Interfaces";
 
 export const MainLayoutStyles = makeStyles({
@@ -15,12 +15,19 @@ export const MainLayoutStyles = makeStyles({
   Title: {
     textAlign: "center",
     marginBottom: 15,
+    color: PrimaryColors.Dark,
   },
   CardDivider: {
     marginTop: 100,
   },
   Cards: {
-    marginTop: 70,
+    marginTop: 40,
+    marginLeft: -150,
+  },
+  CardsSmallWindow: {
+    marginTop: 40,
+    marginLeft: 40,
+    minWidth: 300,
   },
 });
 
@@ -65,9 +72,7 @@ export const GraphStyles = makeStyles({
 });
 
 export const StatsCardStyles = makeStyles({
-  container: {
-    minWidth: 400,
-    maxWidth: 600,
-    height: 300,
+  Card: {
+    minWidth: 200,
   },
 });

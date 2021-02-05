@@ -1,5 +1,5 @@
 import { useState, useEffect, FC } from "react";
-import { Grid, CircularProgress, Typography } from "@material-ui/core";
+import { Grid, useMediaQuery, Typography } from "@material-ui/core";
 import { offsetEnum, offsetArray, GraphData } from "./Interfaces";
 import Selector from "./Selector";
 import Graph from "./Graph";
@@ -16,29 +16,55 @@ interface IProps {
 const StatsContainer: FC<IProps> = ({ actions }) => {
   const [timeOffset, setTimeOffset] = useState(0);
   const [offsetType, setOffsetType] = useState<offsetEnum>(0);
-  const [currentlySelectedActions, setCurrentlySelectedActions] = useState<
-    IAction[]
-  >([]);
   const [currentlySelectedCategory, setCurrentlySelectedCategory] = useState(
     ""
   );
   const [graphData, setGraphData] = useState<GraphData[]>([]);
+  const matches = useMediaQuery("(min-width:550px)");
   useEffect(() => {
-    let newCurrentlySelected: IAction[] = [];
+    let count = 0;
     let graphFriendlyData: any = {};
+    let valid = false;
     for (let i = 0; i < actions.length; i++) {
-      if (
-        actions[i].timeQuery.isBefore(
-          dayjs().subtract(timeOffset, offsetArray[offsetType])
-        )
-      ) {
-        if (
-          !actions[i].timeQuery.isAfter(
-            dayjs().subtract(timeOffset + 1, offsetArray[offsetType])
-          )
-        ) {
+      valid = false;
+      if (timeOffset === 0) {
+        if (!dayjs().isSame(actions[i].timeQuery, offsetArray[offsetType])) {
           break;
         }
+        valid = true;
+      } else {
+        if (offsetArray[offsetType] === "day") {
+          if (
+            actions[i].timeQuery.isSame(
+              dayjs().subtract(timeOffset, offsetArray[offsetType]),
+              "day"
+            )
+          ) {
+            valid = true;
+          } else if (
+            actions[i].timeQuery.isBefore(
+              dayjs().subtract(timeOffset, offsetArray[offsetType])
+            )
+          ) {
+            break;
+          }
+        } else if (
+          actions[i].timeQuery.isBefore(
+            dayjs().subtract(timeOffset, offsetArray[offsetType])
+          )
+        ) {
+          if (
+            !actions[i].timeQuery.isAfter(
+              dayjs().subtract(timeOffset + 1, offsetArray[offsetType])
+            )
+          ) {
+            break;
+          }
+          valid = true;
+        }
+      }
+      if (valid) {
+        count++;
         if (!graphFriendlyData[actions[i].category]) {
           graphFriendlyData[actions[i].category] = {
             category: actions[i].category,
@@ -66,11 +92,9 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
             actions[i].activity
           ].minutes += actions[i].minutes;
         }
-        newCurrentlySelected.push(actions[i]);
       }
     }
-    console.log(graphFriendlyData);
-    if (!newCurrentlySelected.length) {
+    if (!count) {
       setGraphData([
         {
           category: "Nothing here...",
@@ -86,10 +110,10 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
     } else {
       setGraphData(Object.values(graphFriendlyData));
     }
-    setCurrentlySelectedActions(newCurrentlySelected);
   }, [actions, offsetType, timeOffset]);
 
   const classes = MainLayoutStyles();
+  console.log(matches);
   return (
     <Grid container className={classes.Container}>
       <Grid item xs={12}>
@@ -113,7 +137,11 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
           setCurrentlySelectedCategory={setCurrentlySelectedCategory}
         />
       </Grid>
-      <Grid item xs={4} className={classes.Cards}>
+      <Grid
+        item
+        xs={4}
+        className={matches ? classes.Cards : classes.CardsSmallWindow}
+      >
         <StatsCard />
         <div className={classes.CardDivider}>
           <StatsCard />
