@@ -6,28 +6,43 @@ import {
 } from "../../styles/styles";
 
 export const HeaderStyles = makeStyles({
-  title: {
+  TitleContainer: {
     flexGrow: 1,
   },
-  login: {
-    marginRight: 10,
+  Title: {
+    transition: "font-size .25s",
+    "&:hover": {
+      fontSize: 35,
+      cursor: "pointer",
+    },
   },
-  appBar: {
+  AppBar: {
     backgroundColor: PrimaryColors.Base,
     color: NeutralColors.White,
   },
 });
 
 export const LoggedInStyles = makeStyles({
-  username: {
-    marginRight: 15,
-  },
-  button: {
-    backgroundColor: AccentColors.Green,
-    color: AccentColors.LightestGreen,
-    "&:hover, &:focus": {
-      backgroundColor: AccentColors.Green,
-      color: NeutralColors.White,
+  TrackerLink: {
+    transition: "font-size .25s",
+    "&:hover": {
+      fontSize: 25,
+      cursor: "pointer",
     },
+    marginRight: 20,
+  },
+  MyStatsLink: {
+    transition: "font-size .25s",
+    "&:hover": {
+      fontSize: 25,
+      cursor: "pointer",
+    },
+    marginRight: 20,
+    marginLeft: 20,
+  },
+  SignedInIcon: {
+    color: AccentColors.LightGreen,
+    fontSize: 50,
+    marginBottom: -5,
   },
 });

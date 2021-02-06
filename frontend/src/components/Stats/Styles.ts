@@ -44,6 +44,7 @@ export const SelectorStyles = makeStyles({
   Select: {
     fontSize: FontSize.size36,
     marginLeft: 20,
+    color: AccentColors.Green,
   },
   Container: {
     display: "flex",
@@ -74,10 +75,6 @@ export const CustomTimeSelectorStyles = makeStyles({
   IconButton: {
     marginBottom: 15,
   },
-});
-
-export const GraphStyles = makeStyles({
-  LabelStyles: {},
 });
 
 export const StatsCardStyles = makeStyles({

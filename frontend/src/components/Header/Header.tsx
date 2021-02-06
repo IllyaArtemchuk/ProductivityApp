@@ -6,6 +6,7 @@ import {
   Toolbar,
   CircularProgress,
 } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import LoggedIn from "./LoggedIn";
 import GoogleButton from "react-google-button";
 import { HeaderStyles } from "./Styles";
@@ -25,13 +26,21 @@ const Header: FC<Props> = ({ currentUser, currentUserLoading }) => {
     window.location.href = generateBackendURL("/auth/google");
     return;
   };
+  const history = useHistory();
   return (
-    <AppBar className={classes.appBar}>
+    <AppBar className={classes.AppBar}>
       <Container maxWidth="xl">
         <Toolbar>
-          <Typography variant="h4" className={classes.title}>
-            Timeocity
-          </Typography>
+          <div className={classes.TitleContainer}>
+            <Typography variant="h4">
+              <span
+                className={classes.Title}
+                onClick={() => history.push("/tracker")}
+              >
+                Timeocity
+              </span>
+            </Typography>
+          </div>
           {currentUserLoading ? (
             <CircularProgress color="secondary" />
           ) : currentUser ? (
