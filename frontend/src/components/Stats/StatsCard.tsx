@@ -2,12 +2,12 @@ import { FC, useEffect, Dispatch, SetStateAction } from "react";
 import { Typography, Card, CardContent, Grid } from "@material-ui/core";
 import InboxIcon from "@material-ui/icons/Inbox";
 import { StatsCardStyles } from "./Styles";
-import { Statistic } from "./Interfaces";
+import { offsetArray, Statistic } from "./Interfaces";
 interface IProps {
   Title: String;
   Stats: Array<Statistic>;
   setStats: Dispatch<SetStateAction<Statistic[]>>;
-  Range?: number;
+  Range: number;
   totalTime: number;
 }
 
@@ -19,7 +19,7 @@ const StatsCard: FC<IProps> = ({
   totalTime,
 }) => {
   useEffect(() => {
-    if (totalTime !== 0 && Range && Range > 0) {
+    if (totalTime !== 0 && Range > 0) {
       let divider = Range === 1 ? 7 : 30;
       // @ts-ignore
       let averagePerDay = Math.trunc(totalTime / divider);
@@ -33,6 +33,13 @@ const StatsCard: FC<IProps> = ({
   }, [Range, setStats, totalTime]);
   const classes = StatsCardStyles();
 
+  const renderTitle = () => {
+    if (Title === "Stats") {
+      return `${
+        offsetArray[Range].charAt(0).toUpperCase() + offsetArray[Range].slice(1)
+      } ${Title}`;
+    } else return Title;
+  };
   const renderStats = () => {
     if (Stats.length) {
       return Stats.map((stat, ind) => {
@@ -60,7 +67,7 @@ const StatsCard: FC<IProps> = ({
       {Stats.length ? (
         <CardContent>
           <Typography variant="h4" className={classes.Title}>
-            {Range} {Title}
+            {renderTitle()}
           </Typography>
           {renderStats()}
         </CardContent>
