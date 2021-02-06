@@ -18,4 +18,9 @@ export interface GraphData {
   activities: IActivities;
 }
 
+export interface Statistic {
+  Stat: string;
+  Value: string | number;
+}
+
 export const offsetArray: OffsetType[] = ["day", "week", "month"];

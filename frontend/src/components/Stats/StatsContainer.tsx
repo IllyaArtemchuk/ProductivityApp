@@ -1,6 +1,12 @@
 import { useState, useEffect, FC } from "react";
 import { Grid, useMediaQuery, Typography } from "@material-ui/core";
-import { offsetEnum, offsetArray, GraphData } from "./Interfaces";
+import {
+  offsetEnum,
+  offsetArray,
+  GraphData,
+  Statistic,
+  IActivities,
+} from "./Interfaces";
 import Selector from "./Selector";
 import Graph from "./Graph";
 import { MainLayoutStyles } from "./Styles";
@@ -20,11 +26,26 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
     ""
   );
   const [graphData, setGraphData] = useState<GraphData[]>([]);
+  const [categoryStats, setCategoryStats] = useState<Statistic[]>([]);
+  const [totalDayTime, setTotalDayTime] = useState(0);
+  const [totalCategoryTime, setTotalCategoryTime] = useState(0);
+  const [activityStats, setActivityStats] = useState<Statistic[]>([]);
   const matches = useMediaQuery("(min-width:550px)");
+
   useEffect(() => {
-    let count = 0;
+    setCategoryStats([]);
+    setActivityStats([]);
+    setTotalDayTime(0);
+    setTotalCategoryTime(0);
+  }, [timeOffset, setTimeOffset]);
+  // Parses Actions into a graph friendly format and calculates some stats to display
+  useEffect(() => {
+    let validDataCount = 0;
     let graphFriendlyData: any = {};
     let valid = false;
+    let totalTimeTracked = 0;
+    let favoriteActivity = "";
+    let favoriteActivityCounter = 0;
     for (let i = 0; i < actions.length; i++) {
       valid = false;
       if (timeOffset === 0) {
@@ -64,7 +85,8 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
         }
       }
       if (valid) {
-        count++;
+        totalTimeTracked += actions[i].minutes;
+        validDataCount++;
         if (!graphFriendlyData[actions[i].category]) {
           graphFriendlyData[actions[i].category] = {
             category: actions[i].category,
@@ -92,9 +114,15 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
             actions[i].activity
           ].minutes += actions[i].minutes;
         }
+        if (
+          graphFriendlyData[actions[i].category].activities[actions[i].activity]
+            .minutes > favoriteActivityCounter
+        ) {
+          favoriteActivity = actions[i].activity;
+        }
       }
     }
-    if (!count) {
+    if (!validDataCount) {
       setGraphData([
         {
           category: "Nothing here...",
@@ -108,12 +136,47 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
         },
       ]);
     } else {
+      setCategoryStats([
+        { Stat: "Total Time", Value: `${totalTimeTracked} min` },
+        { Stat: "Favorite Activity", Value: favoriteActivity },
+      ]);
+      setTotalDayTime(totalTimeTracked);
       setGraphData(Object.values(graphFriendlyData));
     }
   }, [actions, offsetType, timeOffset]);
 
+  useEffect(() => {
+    if (currentlySelectedCategory !== "") {
+      let found = graphData.find(
+        (cat) => cat.category === currentlySelectedCategory
+      );
+      if (found !== undefined) {
+        let arrayForm: IActivities[] = Object.values(found.activities);
+        let totalTimeTracked = 0;
+        let favoriteActivity = "";
+        let favoriteActivityCounter = 0;
+        for (let activity of arrayForm) {
+          totalTimeTracked += activity.minutes;
+          if (activity.minutes > favoriteActivityCounter) {
+            favoriteActivity = activity.activity;
+            favoriteActivityCounter = activity.minutes;
+          }
+        }
+        setTotalCategoryTime(totalTimeTracked);
+        setActivityStats([
+          {
+            Stat: "Total Time",
+            Value: `${totalTimeTracked} min`,
+          },
+          {
+            Stat: "Favorite Activity",
+            Value: favoriteActivity,
+          },
+        ]);
+      }
+    }
+  }, [currentlySelectedCategory, graphData]);
   const classes = MainLayoutStyles();
-  console.log(matches);
   return (
     <Grid container className={classes.Container}>
       <Grid item xs={12}>
@@ -142,9 +205,25 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
         xs={4}
         className={matches ? classes.Cards : classes.CardsSmallWindow}
       >
-        <StatsCard />
-        <div className={classes.CardDivider}>
-          <StatsCard />
+        <StatsCard
+          Stats={categoryStats}
+          Title="Stats"
+          setStats={setCategoryStats}
+          Range={offsetType}
+          totalTime={totalDayTime}
+        />
+        <div
+          className={
+            matches ? classes.CardDivider : classes.CardDividerSmallWindow
+          }
+        >
+          <StatsCard
+            Stats={activityStats}
+            Title="Category Stats"
+            setStats={setActivityStats}
+            Range={offsetType}
+            totalTime={totalCategoryTime}
+          />
         </div>
       </Grid>
     </Grid>
