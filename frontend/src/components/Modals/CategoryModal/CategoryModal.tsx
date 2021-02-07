@@ -32,7 +32,6 @@ const CategoryModal: FC<IProps> = ({
   setLoading,
 }) => {
   const classes = CategoryModalStyles();
-  const [serverError, setServerError] = useState("");
   const [createCategory, { loading }] = useMutation(CREATE_CATEGORY);
   const [createActivity] = useMutation(CREATE_ACTIVITY);
   const [updateAction] = useMutation(UPDATE_CURRENT_ACTION, {
@@ -112,11 +111,8 @@ const CategoryModal: FC<IProps> = ({
             timeStarted: "",
           },
         }).then(() => setLoading(false));
-      })
-
-      .catch((err) => {
-        setServerError("A Server Error occured.");
       });
+
     return;
   };
 

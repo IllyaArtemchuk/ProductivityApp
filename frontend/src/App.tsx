@@ -17,28 +17,30 @@ const App: FC = () => {
   useEffect(() => {
     if (data) {
       const userData: User = data.currentUser;
-      let actionsArray: IAction[] = [];
-      userData.categories.forEach((cat) => {
-        cat.activities.forEach((act) => {
-          act.actions.forEach((action) => {
-            actionsArray.push({
-              category: cat.category_name,
-              categoryColor: cat.color,
-              activity: act.title,
-              activityColor: act.color,
-              timeStarted: action.timeStarted,
-              timeEnded: action.timeEnded,
-              minutes: action.minutes,
-              timeQuery: dayjs(parseInt(action.timeEnded)),
-              id: action.id,
+      if (userData) {
+        let actionsArray: IAction[] = [];
+        userData.categories.forEach((cat) => {
+          cat.activities.forEach((act) => {
+            act.actions.forEach((action) => {
+              actionsArray.push({
+                category: cat.category_name,
+                categoryColor: cat.color,
+                activity: act.title,
+                activityColor: act.color,
+                timeStarted: action.timeStarted,
+                timeEnded: action.timeEnded,
+                minutes: action.minutes,
+                timeQuery: dayjs(parseInt(action.timeEnded)),
+                id: action.id,
+              });
             });
           });
         });
-      });
-      actionsArray.sort(
-        (a, b) => parseInt(b.timeEnded) - parseInt(a.timeEnded)
-      );
-      setActions(actionsArray);
+        actionsArray.sort(
+          (a, b) => parseInt(b.timeEnded) - parseInt(a.timeEnded)
+        );
+        setActions(actionsArray);
+      }
     }
   }, [data]);
   return (

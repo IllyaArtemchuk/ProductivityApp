@@ -66,8 +66,6 @@ const Tracker: FC<IProps> = ({ actions, setActions }) => {
         categoryColor: categoryColor,
         activityColor: activityColor,
       }));
-      console.log(data.currentUser.currentAction.minutes);
-      setSeconds(data.currentUser.currentAction.minutes * 60);
     }
   }, [loading, error, data]);
 
@@ -119,7 +117,6 @@ const Tracker: FC<IProps> = ({ actions, setActions }) => {
   }, [currentlySelected.activity, currentlySelected.category, data]);
 
   const classes = MainLayoutStyles();
-  console.log("rerender");
   return (
     <Grid container>
       <Grid item xs={undefined} md={2} />
@@ -146,6 +143,8 @@ const Tracker: FC<IProps> = ({ actions, setActions }) => {
           actions={actions}
           setActions={setActions}
           setSeconds={setSeconds}
+          activityModalOpen={activityModalOpen}
+          categoryModalOpen={categoryModalOpen}
         />
       </Grid>
       <Grid item xs={2} />

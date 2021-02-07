@@ -1,9 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
 const actionSchema = new Schema({
-  timeStarted: String,
-  timeEnded: String,
-  minutes: Number,
+  timeStarted: { type: String, unique: false },
+  timeEnded: { type: String, unique: false },
+  minutes: { type: Number, unique: false },
 });
 
 mongoose.model("action", actionSchema);

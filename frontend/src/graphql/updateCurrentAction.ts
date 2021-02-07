@@ -16,6 +16,12 @@ export const UPDATE_CURRENT_ACTION = gql`
       minutes: $minutes
     ) {
       id
+      currentAction {
+        timeStarted
+        category
+        activity
+        minutes
+      }
     }
   }
 `;

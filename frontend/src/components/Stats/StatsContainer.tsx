@@ -37,7 +37,7 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
     setActivityStats([]);
     setTotalDayTime(0);
     setTotalCategoryTime(0);
-  }, [timeOffset, setTimeOffset]);
+  }, [timeOffset, offsetType]);
   // Parses Actions into a graph friendly format and calculates some stats to display
   useEffect(() => {
     let validDataCount = 0;
@@ -48,7 +48,7 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
     let favoriteActivityCounter = 0;
     for (let i = 0; i < actions.length; i++) {
       valid = false;
-      if (timeOffset === 0) {
+      if (offsetType === 0 && timeOffset === 0) {
         if (!dayjs().isSame(actions[i].timeQuery, offsetArray[offsetType])) {
           break;
         }
@@ -122,6 +122,7 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
         }
       }
     }
+    console.log(graphFriendlyData);
     if (!validDataCount) {
       setGraphData([
         {
@@ -219,7 +220,7 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
         >
           <StatsCard
             Stats={activityStats}
-            Title="Category Stats"
+            Title={currentlySelectedCategory}
             setStats={setActivityStats}
             Range={offsetType}
             totalTime={totalCategoryTime}

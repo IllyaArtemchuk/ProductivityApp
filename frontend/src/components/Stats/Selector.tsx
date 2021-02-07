@@ -1,5 +1,5 @@
 import { useEffect, FC, Dispatch, SetStateAction } from "react";
-import { Select, MenuItem, Typography } from "@material-ui/core";
+import { Select, MenuItem } from "@material-ui/core";
 import { offsetEnum, offsetArray } from "./Interfaces";
 import { CustomTimeSelectorStyles, SelectorStyles } from "./Styles";
 import TimeSelector from "../TimeSelector/TimeSelector";

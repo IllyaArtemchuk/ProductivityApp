@@ -42,7 +42,13 @@ const LoggedIn: FC<Props> = ({ username }) => {
         transformOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <MenuItem disabled>Hello, {username.split(" ")[0]}</MenuItem>
-        <MenuItem href={generateBackendURL("/api/logout")}>Sign Out</MenuItem>
+        <MenuItem
+          component="a"
+          href={generateBackendURL("/api/logout")}
+          className={classes.SignOut}
+        >
+          Sign Out
+        </MenuItem>
       </Menu>
       {/* <Typography variant="h5" className={classes.Username}>
         Hello, {username}

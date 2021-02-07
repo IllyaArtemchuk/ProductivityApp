@@ -1,6 +1,7 @@
 import { useState, useEffect, FC, Dispatch, SetStateAction } from "react";
 import { Prompt } from "react-router-dom";
 import { Box, Typography, Grid, Button } from "@material-ui/core";
+import dayjs from "dayjs";
 import { useMutation, useQuery } from "@apollo/client";
 import Timer from "react-compound-timer";
 import { CurrentDisplayStyles } from "./Styles";
@@ -11,7 +12,7 @@ import { CURRENT_ACTION } from "../../graphql/getCurrentAction";
 import { CREATE_ACTION } from "../../graphql/createNewAction";
 import KeyPressHandler from "./KeyPressHandler";
 import { IAction } from "../ActionTable/Interfaces";
-import dayjs from "dayjs";
+import TimeResetter from "./TimeResetter";
 
 interface IProps {
   currentlySelected: ICurrentlySelected;
@@ -20,6 +21,8 @@ interface IProps {
   userID: string;
   setActions: React.Dispatch<React.SetStateAction<IAction[]>>;
   actions: IAction[];
+  activityModalOpen: boolean;
+  categoryModalOpen: boolean;
 }
 
 const CurrentDisplay: FC<IProps> = ({
@@ -29,9 +32,12 @@ const CurrentDisplay: FC<IProps> = ({
   userID,
   actions,
   setActions,
+  activityModalOpen,
+  categoryModalOpen,
 }) => {
   const classes = CurrentDisplayStyles();
   const [isRunning, setRunning] = useState(false);
+  // Prevents Navigation if there is unsaved time tracked
   useEffect(() => {
     if (isRunning) {
       window.onbeforeunload = () => true;
@@ -39,6 +45,7 @@ const CurrentDisplay: FC<IProps> = ({
       window.onbeforeunload = null;
     }
   }, [isRunning]);
+
   const [updateAction] = useMutation(UPDATE_CURRENT_ACTION, {
     refetchQueries: [{ query: CURRENT_ACTION }],
     awaitRefetchQueries: true,
@@ -52,6 +59,12 @@ const CurrentDisplay: FC<IProps> = ({
       return "Select An Activity";
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      setSeconds(data.currentUser.currentAction.minutes * 60);
+    }
+  }, [setSeconds, data]);
 
   const startCurrentAction = (startFunc: any) => {
     if (data) {
@@ -129,23 +142,25 @@ const CurrentDisplay: FC<IProps> = ({
           categoryName: data.currentUser.currentAction.category,
           activityTitle: data.currentUser.currentAction.activity,
         },
-      })
-        .then(() => {
-          updateAction({
-            variables: {
-              userID: userID,
-              minutes: 0,
-              timeStarted: "",
-              category: data.currentUser.currentAction.category,
-              activity: data.currentUser.currentAction.activity,
-            },
-          });
-        })
-        .then(() => {
-          setSeconds(0);
-          resetFunc();
-          pause();
+      }).then(() => {
+        updateAction({
+          variables: {
+            userID: userID,
+            minutes: 0,
+            timeStarted: "",
+            category: data.currentUser.currentAction.category,
+            activity: data.currentUser.currentAction.activity,
+          },
         });
+        Promise.resolve()
+          .then(() => {
+            setSeconds(0);
+          })
+          .then(() => {
+            resetFunc();
+            pause();
+          });
+      });
     }
   };
 
@@ -154,21 +169,49 @@ const CurrentDisplay: FC<IProps> = ({
     return null;
   };
 
+  const renderKeyPressHandler = (start: any, pause: any, getTime: any) => {
+    if (
+      currentlySelected.category === "" ||
+      currentlySelected.activity === "" ||
+      activityModalOpen ||
+      categoryModalOpen
+    ) {
+      return null;
+    } else {
+      return (
+        <KeyPressHandler
+          startCurrentAction={() => startCurrentAction(start)}
+          pauseCurrentAction={() =>
+            updateCurrentAction(pause, Math.trunc(getTime()))
+          }
+          seconds={seconds}
+          isRunning={isRunning}
+          start={start}
+        />
+      );
+    }
+  };
+
+  const initialTimeGetter = () => {
+    return seconds * 1000;
+  };
+
   return (
     <Box className={classes.box} boxShadow={3}>
       <Prompt
         when={isRunning}
         message="If you dont pause the timer, you will lose progress on page leave."
       />
-
       <Timer
         startImmediately={false}
-        initialTime={seconds * 1000}
+        initialTime={initialTimeGetter()}
         lastUnit="h"
         checkpoints={[
           {
             time: 1000 * 1,
-            callback: () => setSeconds(1),
+            callback: () => {
+              setSeconds(1);
+            },
           },
         ]}
         onStart={() => setRunning(true)}
@@ -181,19 +224,12 @@ const CurrentDisplay: FC<IProps> = ({
           <>
             <Grid container>
               <Grid item xs={12}>
-                <KeyPressHandler
-                  startCurrentAction={() => startCurrentAction(start)}
-                  pauseCurrentAction={() =>
-                    updateCurrentAction(pause, Math.trunc(getTime()))
-                  }
-                  seconds={seconds}
-                  isRunning={isRunning}
-                  start={start}
-                />
+                {renderKeyPressHandler(start, pause, getTime)}
                 <Typography variant="h6" className={classes.currentActivity}>
                   {displayCurrentActivity()}
                 </Typography>
               </Grid>
+              <TimeResetter setTime={setTime} seconds={seconds} />
               <Grid item xs={2} />
               <Grid item xs={8} className={classes.timerContainer}>
                 <Typography variant="h1" className={classes.timer}>
@@ -233,7 +269,7 @@ const CurrentDisplay: FC<IProps> = ({
                         finishCurrentAction(reset, Math.trunc(getTime()), pause)
                       }
                     >
-                      Finish
+                      {Math.trunc(getTime()) / 1000 < 60 ? "Discard" : "Finish"}
                     </Button>
                   </>
                 )}

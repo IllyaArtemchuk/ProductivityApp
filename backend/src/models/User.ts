@@ -1,22 +1,21 @@
 import mongoose, { Schema, Document } from "mongoose";
-const arrayUniquePlugin = require("mongoose-unique-array");
 const userSchema: Schema = new Schema({
   googleId: String,
   username: String,
   currentAction: {
-    category: { type: String, default: "" },
-    activity: { type: String, default: "" },
-    timeStarted: { type: String, default: "" },
-    minutes: { type: Number, defualt: 0 },
+    category: { type: String, default: "", unique: false },
+    activity: { type: String, default: "", unique: false },
+    timeStarted: { type: String, default: "", unique: false },
+    minutes: { type: Number, defualt: 0, unique: false },
   },
   categories: [
     {
-      category_name: String,
-      color: String,
+      category_name: { type: String, unique: false },
+      color: { type: String, unique: false },
       activities: [
         {
-          title: String,
-          color: String,
+          title: { type: String, unique: false },
+          color: { type: String, unique: false },
           actions: [
             {
               action: { type: Schema.Types.ObjectId, ref: "Action" },
@@ -58,6 +57,6 @@ export interface IUser extends Document {
   categories: Category[];
 }
 
-userSchema.plugin(arrayUniquePlugin);
+// userSchema.plugin(arrayUniquePlugin);
 
 mongoose.model<IUser>("user", userSchema);

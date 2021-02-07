@@ -44,5 +44,9 @@ export const LoggedInStyles = makeStyles({
     color: AccentColors.LightGreen,
     fontSize: 50,
     marginBottom: -5,
+    marginTop: -5,
+  },
+  SignOut: {
+    color: PrimaryColors.Light,
   },
 });

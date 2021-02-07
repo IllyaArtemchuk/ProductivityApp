@@ -38,7 +38,7 @@ const StatsCard: FC<IProps> = ({
       return `${
         offsetArray[Range].charAt(0).toUpperCase() + offsetArray[Range].slice(1)
       } ${Title}`;
-    } else return Title;
+    } else return `${Title} Stats`;
   };
   const renderStats = () => {
     if (Stats.length) {

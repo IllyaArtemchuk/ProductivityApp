@@ -139,7 +139,7 @@ interface BProps {
 }
 
 export const StartButtonStyles = makeStyles({
-  timerControl: {
+  TimerControl: {
     height: 90,
     width: 90,
     backgroundColor: AccentColors.LightGreen,
@@ -153,5 +153,9 @@ export const StartButtonStyles = makeStyles({
       color: ThemeColors.Sand,
     },
   },
-  controlButton: { fontSize: 65 },
+  ControlButton: { fontSize: 65 },
+  ToolTip: {
+    backgroundColor: AccentColors.Green,
+    fontSize: FontSize.size16,
+  },
 });
