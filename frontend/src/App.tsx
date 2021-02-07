@@ -10,6 +10,7 @@ import Tracker from "./components/Tracker/Tracker";
 import StatsContainer from "./components/Stats/StatsContainer";
 import { IAction } from "./components/ActionTable/Interfaces";
 import { User } from "./interfaces/UserTypes";
+import GeneratorButton from "./components/GeneratorButton";
 
 const App: FC = () => {
   const { data, loading } = useQuery(CURRENT_USER);
@@ -65,6 +66,7 @@ const App: FC = () => {
           render={(props) => <StatsContainer {...props} actions={actions} />}
         />
       </BrowserRouter>
+      <GeneratorButton currentUser={data ? data.currentUser : null} />
     </Container>
   );
 };

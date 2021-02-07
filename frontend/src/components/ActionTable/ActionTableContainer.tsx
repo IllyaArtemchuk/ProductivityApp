@@ -46,12 +46,15 @@ const ActionTableContainer: FC<IProps> = ({
   }, [userData, setActions]);
 
   useEffect(() => {
+    console.log(actions);
+    console.log(dayjs().subtract(daySelected, "day"));
     setVisibleActions(
       actions.filter((action) =>
         action.timeQuery.isSame(dayjs().subtract(daySelected, "day"), "day")
       )
     );
   }, [daySelected, actions]);
+  console.log(visibleActions);
   return (
     <div>
       <TimeSelector
@@ -63,6 +66,7 @@ const ActionTableContainer: FC<IProps> = ({
         userData={userData}
         actions={visibleActions}
         setActions={setActions}
+        setVisibleActions={setVisibleActions}
       />
     </div>
   );

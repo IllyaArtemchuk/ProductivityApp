@@ -91,7 +91,7 @@ const CategoryModal: FC<IProps> = ({
         color: categoryColor,
       },
     })
-      .then(() => {
+      .then((res) => {
         createActivity({
           variables: {
             userID: userID,

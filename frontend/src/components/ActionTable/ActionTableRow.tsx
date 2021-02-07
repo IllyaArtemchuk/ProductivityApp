@@ -16,14 +16,14 @@ interface IProps {
   action: IAction;
   userID: string;
   actions: IAction[];
-  setActions: React.Dispatch<React.SetStateAction<IAction[]>>;
+  setVisibleActions: React.Dispatch<React.SetStateAction<IAction[]>>;
 }
 
 const ActionTableRow: FC<IProps> = ({
   action,
   userID,
   actions,
-  setActions,
+  setVisibleActions,
 }) => {
   const [hovered, setHovered] = useState(false);
   const [handleDelete, { loading }] = useMutation(DELETE_ACTION);
@@ -41,7 +41,7 @@ const ActionTableRow: FC<IProps> = ({
         activityTitle: action.activity,
       },
     }).then(() => {
-      setActions(actions.filter((item) => item.id !== action.id));
+      setVisibleActions(actions.filter((item) => item.id !== action.id));
     });
   };
 

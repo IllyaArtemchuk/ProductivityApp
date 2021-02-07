@@ -17,9 +17,15 @@ interface IProps {
   userData: User;
   actions: IAction[];
   setActions: Dispatch<SetStateAction<IAction[]>>;
+  setVisibleActions: Dispatch<SetStateAction<IAction[]>>;
 }
 
-const ActionTable: FC<IProps> = ({ userData, actions, setActions }) => {
+const ActionTable: FC<IProps> = ({
+  userData,
+  actions,
+  setActions,
+  setVisibleActions,
+}) => {
   const renderTableRows = () => {
     if (userData) {
       return (
@@ -30,7 +36,7 @@ const ActionTable: FC<IProps> = ({ userData, actions, setActions }) => {
               action={action}
               userID={userData.id}
               actions={actions}
-              setActions={setActions}
+              setVisibleActions={setVisibleActions}
             />
           ))}
         </TableBody>
