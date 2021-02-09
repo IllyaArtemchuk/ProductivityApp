@@ -12,16 +12,16 @@ const GeneratorButton: FC<IProps> = ({ currentUser }) => {
   const [createAction] = useMutation(CREATE_ACTION);
   const generateStuff = () => {
     const offsetHours = 1;
-    const offsetMinutes = 0;
-    const category_name = "Exercise";
-    const activity_name = "Weight Lifting";
-    const minutes = 59;
+    const offsetMinutes = 1;
+    const category_name = "Relaxing";
+    const activity_name = "Netflix";
+    const minutes = 60;
     const manipulatedDate = dayjs()
       .set("month", 0)
-      .set("hour", 7)
-      .set("minute", 0);
+      .set("hour", 20)
+      .set("minute", 20);
     console.log(manipulatedDate);
-    for (let i = 0; i <= 30; i++) {
+    for (let i = 0; i <= 15; i++) {
       console.log("looping", i);
       let unixStart = manipulatedDate.set("day", i).unix() * 1000;
       let unixEnd =

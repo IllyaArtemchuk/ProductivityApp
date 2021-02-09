@@ -45,7 +45,7 @@ const ActionTable: FC<IProps> = ({
       return (
         <TableBody>
           <TableRow>
-            <TableCell align="center" className={classes.blankTable}>
+            <TableCell align="center" className={classes.BlankTable}>
               <CircularProgress />
             </TableCell>
           </TableRow>
@@ -58,7 +58,7 @@ const ActionTable: FC<IProps> = ({
     <TableContainer
       component={Paper}
       elevation={2}
-      className={classes.tableContainer}
+      className={classes.TableContainer}
     >
       <Table>
         {actions.length ? (
@@ -66,7 +66,7 @@ const ActionTable: FC<IProps> = ({
         ) : (
           <TableBody>
             <TableRow>
-              <TableCell align="center" className={classes.blankTable}>
+              <TableCell align="center" className={classes.BlankTable}>
                 Nothing Completed Today...
               </TableCell>
             </TableRow>

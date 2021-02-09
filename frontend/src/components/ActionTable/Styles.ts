@@ -2,13 +2,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AccentColors, NeutralColors, FontWeight } from "../../styles/styles";
 
 export const ActionTableStyles = makeStyles({
-  tableContainer: {
+  TableContainer: {
     marginTop: 50,
     maxWidth: 900,
     minWidth: 400,
     margin: "auto",
   },
-  blankTable: {
+  BlankTable: {
     color: NeutralColors.Light,
   },
 });
@@ -18,7 +18,7 @@ interface IActionTableRowProps {
   activityColor: string;
 }
 export const ActionTableRowStyles = makeStyles({
-  deletion: {
+  Deletion: {
     "&:hover": {
       color: AccentColors.Red,
     },
@@ -27,15 +27,15 @@ export const ActionTableRowStyles = makeStyles({
     marginRight: -11,
     marginLeft: 10,
   },
-  category: {
+  Category: {
     color: (props: IActionTableRowProps) => props.categoryColor,
     fontWeight: FontWeight.heavy,
   },
-  activity: {
+  Activity: {
     color: (props: IActionTableRowProps) => props.activityColor,
     fontWeight: FontWeight.heavy,
   },
-  slash: {
+  Slash: {
     color: NeutralColors.Light,
   },
 });

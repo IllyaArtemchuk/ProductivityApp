@@ -11,6 +11,7 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { IAction } from "./Interfaces";
 import { ActionTableRowStyles } from "./Styles";
 import { DELETE_ACTION } from "../../graphql/deleteAction";
+import { CURRENT_USER } from "../../graphql/getCurrentUser";
 
 interface IProps {
   action: IAction;
@@ -26,7 +27,9 @@ const ActionTableRow: FC<IProps> = ({
   setVisibleActions,
 }) => {
   const [hovered, setHovered] = useState(false);
-  const [handleDelete, { loading }] = useMutation(DELETE_ACTION);
+  const [handleDelete, { loading }] = useMutation(DELETE_ACTION, {
+    refetchQueries: [{ query: CURRENT_USER }],
+  });
   const classes = ActionTableRowStyles({
     categoryColor: action.categoryColor,
     activityColor: action.activityColor,
@@ -50,7 +53,7 @@ const ActionTableRow: FC<IProps> = ({
       return (
         <CircularProgress
           color="secondary"
-          className={classes.deletion}
+          className={classes.Deletion}
           size={20}
         />
       );
@@ -59,7 +62,7 @@ const ActionTableRow: FC<IProps> = ({
         return (
           <IconButton
             aria-label="delete"
-            className={classes.deletion}
+            className={classes.Deletion}
             size="small"
             onClick={() => onDelete()}
           >
@@ -75,7 +78,7 @@ const ActionTableRow: FC<IProps> = ({
       return (
         <CircularProgress
           color="secondary"
-          className={classes.deletion}
+          className={classes.Deletion}
           size={20}
         />
       );
@@ -90,9 +93,9 @@ const ActionTableRow: FC<IProps> = ({
       onMouseLeave={() => setHovered(false)}
     >
       <TableCell align="left">
-        <span className={classes.category}>{action.category}</span>
-        <span className={classes.slash}>/</span>
-        <span className={classes.activity}>{action.activity}</span>
+        <span className={classes.Category}>{action.category}</span>
+        <span className={classes.Slash}>/</span>
+        <span className={classes.Activity}>{action.activity}</span>
       </TableCell>
       <TableCell align="right">{action.minutes} m</TableCell>
       <TableCell align="right">

@@ -2,6 +2,7 @@ import { FC, Dispatch, SetStateAction } from "react";
 import { GraphData, IActivities } from "./Interfaces";
 import { VictoryPie, VictoryTooltip } from "victory";
 import { FontSize, NeutralColors, PrimaryColors } from "../../styles/styles";
+import { timeFormatter } from "./helper";
 
 interface IProps {
   graphData: GraphData[];
@@ -44,7 +45,7 @@ const Graph: FC<IProps> = ({
     if (activity === "Nothing here..." || activity === "Select a category") {
       return activity;
     }
-    return `${activity}: ${min} min`;
+    return `${activity}: ${timeFormatter(min)}`;
   };
   return (
     <div>

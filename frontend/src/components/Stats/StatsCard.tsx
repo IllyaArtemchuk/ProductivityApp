@@ -3,6 +3,7 @@ import { Typography, Card, CardContent, Grid } from "@material-ui/core";
 import InboxIcon from "@material-ui/icons/Inbox";
 import { StatsCardStyles } from "./Styles";
 import { offsetArray, Statistic } from "./Interfaces";
+import { timeFormatter } from "./helper";
 interface IProps {
   Title: String;
   Stats: Array<Statistic>;
@@ -26,7 +27,10 @@ const StatsCard: FC<IProps> = ({
       if (averagePerDay > 0) {
         setStats((prevStats) => [
           ...prevStats,
-          { Stat: "Average Per Day", Value: `${averagePerDay} min` },
+          {
+            Stat: "Average Tracked Per Day",
+            Value: timeFormatter(averagePerDay),
+          },
         ]);
       }
     }

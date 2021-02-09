@@ -66,7 +66,6 @@ const App: FC = () => {
           render={(props) => <StatsContainer {...props} actions={actions} />}
         />
       </BrowserRouter>
-      <GeneratorButton currentUser={data ? data.currentUser : null} />
     </Container>
   );
 };

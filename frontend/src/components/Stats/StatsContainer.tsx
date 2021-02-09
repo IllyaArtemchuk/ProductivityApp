@@ -14,6 +14,7 @@ import { IAction } from "../ActionTable/Interfaces";
 import { NeutralColors } from "../../styles/styles";
 import dayjs from "dayjs";
 import StatsCard from "./StatsCard";
+import { timeFormatter } from "./helper";
 
 interface IProps {
   actions: IAction[];
@@ -119,6 +120,10 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
             .minutes > favoriteActivityCounter
         ) {
           favoriteActivity = actions[i].activity;
+          favoriteActivityCounter =
+            graphFriendlyData[actions[i].category].activities[
+              actions[i].activity
+            ].minutes;
         }
       }
     }
@@ -138,7 +143,7 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
       ]);
     } else {
       setCategoryStats([
-        { Stat: "Total Time", Value: `${totalTimeTracked} min` },
+        { Stat: "Total Time", Value: timeFormatter(totalTimeTracked) },
         { Stat: "Favorite Activity", Value: favoriteActivity },
       ]);
       setTotalDayTime(totalTimeTracked);
@@ -167,7 +172,7 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
         setActivityStats([
           {
             Stat: "Total Time",
-            Value: `${totalTimeTracked} min`,
+            Value: timeFormatter(totalTimeTracked),
           },
           {
             Stat: "Favorite Activity",
