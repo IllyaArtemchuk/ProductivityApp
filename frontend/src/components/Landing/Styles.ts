@@ -10,8 +10,12 @@ export const LandingPageStyles = makeStyles({
   Container: {
     marginTop: 50,
   },
+  Title: {
+    color: PrimaryColors.Base,
+  },
   Feature: {
     marginTop: 40,
+    color: AccentColors.Green,
   },
   BulletPoint: {
     marginTop: 20,
@@ -19,6 +23,7 @@ export const LandingPageStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     flexWrap: "wrap",
+    color: PrimaryColors.Dark,
   },
   FocusImage: {
     width: "80%",
@@ -28,5 +33,14 @@ export const LandingPageStyles = makeStyles({
     marginLeft: 65,
     fontWeight: FontWeight.normal,
     color: NeutralColors.Normal,
+  },
+  SignInPrompt: {
+    textAlign: "center",
+    marginTop: 70,
+    color: PrimaryColors.Base,
+  },
+  SignInButton: {
+    display: "flex",
+    flexDirection: "row",
   },
 });

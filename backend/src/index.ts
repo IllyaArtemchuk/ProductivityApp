@@ -22,7 +22,6 @@ mongoose
     console.log("DataBase Connection Successful");
   })
   .catch((err) => {
-    console.log(err);
     console.log("Database Error");
   });
 
@@ -50,5 +49,4 @@ require("./routes/authRoutes")(app);
 require("./routes/testRoutes")(app);
 
 const PORT = process.env.PORT || 5000;
-console.log(PORT);
 app.listen(PORT);

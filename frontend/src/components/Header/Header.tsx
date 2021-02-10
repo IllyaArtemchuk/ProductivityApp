@@ -22,6 +22,14 @@ interface Props {
 
 const Header: FC<Props> = ({ currentUser, currentUserLoading }) => {
   const classes = HeaderStyles();
+
+  const onTitleClick = () => {
+    if (currentUser) {
+      history.push("/tracker");
+    } else {
+      history.push("/");
+    }
+  };
   const authenticate = () => {
     window.location.href = generateBackendURL("/auth/google");
     return;
@@ -33,10 +41,7 @@ const Header: FC<Props> = ({ currentUser, currentUserLoading }) => {
         <Toolbar>
           <div className={classes.TitleContainer}>
             <Typography variant="h4">
-              <span
-                className={classes.Title}
-                onClick={() => history.push("/tracker")}
-              >
+              <span className={classes.Title} onClick={() => onTitleClick()}>
                 Timeocity
               </span>
             </Typography>
@@ -47,6 +52,8 @@ const Header: FC<Props> = ({ currentUser, currentUserLoading }) => {
             <LoggedIn username={currentUser.username} />
           ) : (
             <GoogleButton
+              type="light"
+              style={{ width: 210, fontWeight: "bold" }}
               onClick={() => {
                 authenticate();
               }}

@@ -115,7 +115,6 @@ const Tracker: FC<IProps> = ({ actions, setActions }) => {
       }
     }
   }, [currentlySelected.activity, currentlySelected.category, data]);
-  console.log(data);
   const classes = MainLayoutStyles();
   return (
     <Grid container>

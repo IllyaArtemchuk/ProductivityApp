@@ -1,20 +1,37 @@
 import { FC } from "react";
-import { Button, Typography, Grid } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Typography, Grid } from "@material-ui/core";
+import { Redirect } from "react-router-dom";
+import GoogleButton from "react-google-button";
 import AssignmentLateIcon from "@material-ui/icons/AssignmentLate";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import SaveIcon from "@material-ui/icons/Save";
 import PieChartIcon from "@material-ui/icons/PieChart";
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import HighlightIcon from "@material-ui/icons/Highlight";
+import CreateIcon from "@material-ui/icons/Create";
 import { LandingPageStyles } from "./Styles";
+import { generateBackendURL } from "../../helpers";
 
-const Landing: FC = () => {
+interface IProps {
+  currentUser: {
+    id: "string";
+    username: "string";
+  } | null;
+  currentUserLoading: boolean;
+}
+const Landing: FC<IProps> = ({ currentUser, currentUserLoading }) => {
+  const authenticate = () => {
+    window.location.href = generateBackendURL("/auth/google");
+    return;
+  };
   const classes = LandingPageStyles();
+  if (currentUser) {
+    return <Redirect to="/tracker" />;
+  }
   return (
     <Grid container className={classes.Container}>
       <Grid item xs={12}>
-        <Typography variant="h2">
+        <Typography variant="h2" className={classes.Title}>
           Track your time, focus on what matters.
         </Typography>
       </Grid>
@@ -24,6 +41,10 @@ const Landing: FC = () => {
         </Typography>
       </Grid>
       <Grid item xs={12}>
+        <Typography variant="body1" className={classes.BulletPoint}>
+          <CreateIcon className={classes.InLineIcon} />
+          Create categories and activities that you want to track.
+        </Typography>
         <Typography variant="body1" className={classes.BulletPoint}>
           <AssignmentLateIcon className={classes.InLineIcon} />
           Choose an activity you want to focus on.
@@ -63,6 +84,17 @@ const Landing: FC = () => {
         <Typography variant="body1" className={classes.BulletPoint}>
           <HighlightIcon />
           Highlight specific categories to see what actions you focus on most.
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="h4" className={classes.Feature}>
+          <div className={classes.SignInButton}>
+            Get Started:
+            <GoogleButton
+              onClick={authenticate}
+              style={{ width: 200, marginLeft: 20 }}
+            />
+          </div>
         </Typography>
       </Grid>
     </Grid>

@@ -127,7 +127,6 @@ const StatsContainer: FC<IProps> = ({ actions }) => {
         }
       }
     }
-    console.log(graphFriendlyData);
     if (!validDataCount) {
       setGraphData([
         {

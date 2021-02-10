@@ -10,7 +10,7 @@ import Tracker from "./components/Tracker/Tracker";
 import StatsContainer from "./components/Stats/StatsContainer";
 import { IAction } from "./components/ActionTable/Interfaces";
 import { User } from "./interfaces/UserTypes";
-import GeneratorButton from "./components/GeneratorButton";
+import PrivateRoute from "./PrivateRoute";
 
 const App: FC = () => {
   const { data, loading } = useQuery(CURRENT_USER);
@@ -52,18 +52,29 @@ const App: FC = () => {
           currentUserLoading={loading}
         />
         <Toolbar />
-        <Route exact path="/" component={Landing} />
         <Route
           exact
-          path="/tracker"
+          path="/"
           render={(props) => (
-            <Tracker {...props} actions={actions} setActions={setActions} />
+            <Landing
+              {...props}
+              currentUser={data ? data.currentUser : null}
+              currentUserLoading={loading}
+            />
           )}
         />
-        <Route
-          exact
+
+        <PrivateRoute
+          component={<Tracker actions={actions} setActions={setActions} />}
+          path="/tracker"
+          loading={loading}
+          isAuthenticated={data ? data.currentUser : null}
+        />
+        <PrivateRoute
+          component={<StatsContainer actions={actions} />}
           path="/stats"
-          render={(props) => <StatsContainer {...props} actions={actions} />}
+          loading={loading}
+          isAuthenticated={data ? data.currentUser : null}
         />
       </BrowserRouter>
     </Container>
