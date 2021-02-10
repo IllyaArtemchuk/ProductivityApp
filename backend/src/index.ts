@@ -43,7 +43,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/graphql", graphqlHTTP({ schema, graphiql: true }));
+app.use("/graphql", graphqlHTTP({ schema }));
 
 require("./routes/authRoutes")(app);
 require("./routes/testRoutes")(app);
